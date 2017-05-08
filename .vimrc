@@ -5,9 +5,10 @@
 inoremap <silent> jj <ESC>
 
 " カラーシンタックス
-syntax enable
-" 行番号
+"syntax enable
+colorscheme elflord
 
+" 行番号
 set nu
 
 " 行・列番号
@@ -40,53 +41,53 @@ set shiftwidth=4
 set noexpandtab
 
 " フォント設定
-set guifont=Ricty_Discord:h14
-set guifontwide=Ricty_Discord:h14
+set guifont=Ricty_Discord:h15
+set guifontwide=Ricty_Discord:h15
 set linespace=4
 
+" TeXの設定
+" 折りたたみを無効にする
+:let g:Tex_Auto_Folding=0
+:let b:Imap_FreezeImap=1
 
-"" NeoBundle
- " Note: Skip initialization for vim-tiny or vim-small.
- if 0 | endif
+" HTMLなどの対応する括弧移動の拡張
+" %で対応する括弧へ移動
+:source $VIMRUNTIME/macros/matchit.vim
 
- if has('vim_starting')
-   if &compatible
-     set nocompatible               " Be iMproved
-   endif
+" dein settings {{{
+" via http://qiita.com/okamos/items/2259d5c770d51b88d75b
+if &compatible
+  set nocompatible
+endif
+" dein.vimのディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-   " Required:
-   set runtimepath+=~/.vim/bundle/neobundle.vim/
- endif
+" なければgit clone
+if !isdirectory(s:dein_repo_dir)
+  execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+endif
+execute 'set runtimepath^=' . s:dein_repo_dir
 
- " Required:
- call neobundle#begin(expand('~/.vim/bundle/'))
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
- " Let NeoBundle manage NeoBundle
- " Required:
- NeoBundleFetch 'Shougo/neobundle.vim'
+  " 管理するプラグインを記述したファイル
+  let s:toml = '~/.dein.toml'
+  let s:lazy_toml = '~/.dein_lazy.toml'
+  call dein#load_toml(s:toml, {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
- " My Bundles here:
- " Refer to |:NeoBundle-examples|.
- " Note: You don't set neobundle setting in .gvimrc!
- NeoBundle 'https://github.com/Shougo/neobundle.vim.git'
- NeoBundle 'https://github.com/tpope/vim-pathogen.git'
- NeoBundle 'https://github.com/Shougo/vimfiler.git'
- NeoBundle 'https://github.com/Shougo/unite.vim.git'
- NeoBundle 'https://github.com/Shougo/vimproc.git'
- NeoBundle 'https://github.com/Shougo/vimshell.git'
- NeoBundle 'plasticboy/vim-markdown'
- NeoBundle 'kannokanno/previm'
- NeoBundle 'tyru/open-browser.vim'
- NeoBundle 'vim-latex/vim-latex'
-
- call neobundle#end()
-
- " Required:
- filetype plugin indent on
-
- " If there are uninstalled bundles found on startup,
- " this will conveniently prompt you to install them.
- NeoBundleCheck
-
-
+  call dein#end()
+  call dein#save_state()
+endif
  
+" vimprocだけ最初にインストール
+if dein#check_install(['vimproc'])
+  call dein#install(['vimproc'])
+endif
+" その他インストールしていないものをインストール
+if dein#check_install()
+  call dein#install()
+endif
+" }}}

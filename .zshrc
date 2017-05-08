@@ -1,12 +1,13 @@
 # Created by newuser for 5.0.8
 
-# nodebrew
-export NODEBFREW_ROOT=/usr/local/var/nodebrew
-
 # パス
-export PATH=/usr/local/sbin:$PATH
-export PATH=$NODEBREW_ROOT/current/bin:$PATH
-export PATH=$HOME/.nodebrew/current/bin:$PATH
+#export PATH=/usr/local/sbin:$PATH
+#export PATH=$NODEBREW_ROOT/current/bin:$PATH
+#export PATH=$HOME/.nodebrew/current/bin:$PATH
+#export PATH=$HOME/anaconda/bin:$PATH
+export PATH=/usr/local/opt/openssl/bin:$PATH
+
+export XDG_CONFIG_HOME=$HOME/dotfiles
 
 # 補完
 autoload -U compinit
@@ -57,5 +58,12 @@ setopt list_packed
 setopt nolistbeep
 
 # エイリアス
+alias ols='ls'
 alias ls='gls -F --color'
 alias ll='gls -laFh --color'
+alias git=hub
+
+# nodebrew
+export NODEBFREW_ROOT=/usr/local/var/nodebrew
+
+fpath=(/usr/local/share/zsh-completions $fpath)
