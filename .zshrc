@@ -4,8 +4,8 @@
 #export PATH=/usr/local/sbin:$PATH
 #export PATH=$NODEBREW_ROOT/current/bin:$PATH
 #export PATH=$HOME/.nodebrew/current/bin:$PATH
-#export PATH=$HOME/anaconda/bin:$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH
+export PATH=$PATH:$HOME/anaconda/bin
 
 export XDG_CONFIG_HOME=$HOME/dotfiles
 
@@ -63,7 +63,13 @@ alias ls='gls -F --color'
 alias ll='gls -laFh --color'
 alias git=hub
 
+# hocxom用エイリアス（IPAexを埋め込むTeXタイプセット）
+alias hocsom="ptex2pdf -e -l -ot '-synctex=1' -od '-f ptex-ipaex.map'"
+
 # nodebrew
 export NODEBFREW_ROOT=/usr/local/var/nodebrew
 
 fpath=(/usr/local/share/zsh-completions $fpath)
+
+# OPAM configuration
+. /Users/motoki/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true

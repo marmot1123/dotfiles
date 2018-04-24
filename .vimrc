@@ -5,7 +5,8 @@
 inoremap <silent> jj <ESC>
 
 " カラーシンタックス
-"syntax enable
+"syntax on
+"source $VIMRUNTIME/syntax/syntax.vim
 colorscheme elflord
 
 " 行番号
@@ -44,6 +45,9 @@ set noexpandtab
 set guifont=Ricty_Discord:h15
 set guifontwide=Ricty_Discord:h15
 set linespace=4
+
+" マルチバイト文字
+set ambiwidth=double
 
 " TeXの設定
 " 折りたたみを無効にする
