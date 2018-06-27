@@ -20,6 +20,8 @@ set shiftwidth=4
 set noexpandtab
 set ambiwidth=double
 
+set wildmode=list:longest
+
 
 """" Coloring """"
 syntax on
