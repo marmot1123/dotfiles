@@ -6,7 +6,7 @@
 #export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:/anaconda3/bin
+export PATH=/anaconda3/bin:$PATH
 
 export XDG_CONFIG_HOME=$HOME/dotfiles
 
@@ -113,3 +113,6 @@ function _chef() {
 }
 
 compdef _chef chef
+
+# Python virtualenv用
+export WORKON_HOME=$HOME/.virtualenvs
