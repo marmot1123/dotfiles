@@ -21,6 +21,7 @@ set noexpandtab
 set ambiwidth=double
 
 set wildmode=list:longest
+set backspace=indent,eol,start
 
 
 """" Coloring """"
