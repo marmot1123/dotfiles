@@ -6,7 +6,7 @@
 #export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
-export PATH=/anaconda3/bin:$PATH
+export PATH=$PATH:/anaconda3/bin
 
 export XDG_CONFIG_HOME=$HOME/dotfiles
 
@@ -26,7 +26,7 @@ export LANG=ja_JP.UTF-8
 
 # プロンプト （いろいろ試してみる）
 PROMPT="%{${fg[cyan]}%}%~ %{${reset_color}%}
-%{${fg[yellow]}%}mbp2015$ %{${reset_color}%}"
+%{${fg[yellow]}%}%m$ %{${reset_color}%}"
 
 # 履歴
 HISTFILE=~/.zsh_history
