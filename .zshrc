@@ -116,3 +116,5 @@ compdef _chef chef
 
 # Python virtualenv用
 export WORKON_HOME=$HOME/.virtualenvs
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
