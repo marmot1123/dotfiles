@@ -3,10 +3,14 @@
 	email = marmot.motoki@gmail.com
 [color]
 	ui = true
+	branch = auto
 [credential]
 	helper = osxkeychain
 [core]
+	editor = vim -c \"set fenc=utf-8\"
 	excludesfile = /Users/motoki/.gitignore_global
+	diff = auto
+	status = auto
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
@@ -18,3 +22,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[push]
+	default = simple
