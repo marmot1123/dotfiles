@@ -1,6 +1,6 @@
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
-CANDIDATES := $(sildcard .??*)
-EXCLUDIONS := .DS_Store .git .gitmodules
+CANDIDATES := $(wildcard .??*)
+EXCLUDIONS := .DS_Store .git .gitignore .gitmodules .travis.yml
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
 
 all: install
