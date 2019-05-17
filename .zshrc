@@ -54,3 +54,5 @@ alias ll='gls -laFh --color'
 alias git=hub
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+ssh-add
