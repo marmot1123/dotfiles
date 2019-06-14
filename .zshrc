@@ -2,7 +2,7 @@
 export PATH=$PATH:/usr/local/texlive/2019/bin/x86_64-darwin
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:/anaconda3/bin
+export PATH=$PATH:/usr/local/anaconda3/bin
 
 export XDG_CONFIG_HOME=$HOME/dotfiles
 
