@@ -1,4 +1,5 @@
 # パス
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 export PATH=$PATH:/usr/local/texlive/2020/bin/x86_64-darwin
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
@@ -50,9 +51,8 @@ setopt list_packed
 setopt nolistbeep
 
 # エイリアス
-alias ols='ls'
-alias ls='gls -F --color'
-alias ll='gls -laFh --color'
+alias ls='ls -F --color'
+alias ll='ls -laFh --color'
 alias git=hub
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
