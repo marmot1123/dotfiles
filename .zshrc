@@ -1,12 +1,12 @@
 # パス
 export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-export PATH=$PATH:/usr/local/texlive/2020/bin/x86_64-darwin
+export PATH=$PATH:/usr/local/texlive/2021/bin/universal-darwin
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/anaconda3/bin
-export MANPATH=$MANPATH:/usr/local/texlive/2020/texmf-dist/doc/man
-export INFOPATH=$INFOPATH:/usr/local/texlive/2020/texmf-dist/doc/info
+export MANPATH=$MANPATH:/usr/local/texlive/2021/texmf-dist/doc/man
+export INFOPATH=$INFOPATH:/usr/local/texlive/2021/texmf-dist/doc/info
 
 export XDG_CONFIG_HOME=$HOME/dotfiles
 
