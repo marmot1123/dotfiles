@@ -26,7 +26,7 @@ export LANG=ja_JP.UTF-8
 
 # プロンプト （いろいろ試してみる）
 PROMPT="%{${fg[cyan]}%}%~ %{${reset_color}%}
-%{${fg[yellow]}%}%m$ %{${reset_color}%}"
+%{${fg[yellow]}%}%n@%m$ %{${reset_color}%}"
 
 # 履歴
 HISTFILE=~/.zsh_history
