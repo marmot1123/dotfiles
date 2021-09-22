@@ -1,6 +1,7 @@
 # パス
 export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 export PATH=$PATH:/usr/local/texlive/2021/bin/universal-darwin
+export PATH=$PATH:/usr/local/texlive/2021/bin/x86_64-linux
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/sbin
@@ -58,4 +59,4 @@ alias git=hub
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-ssh-add
+ssh-add zsh
