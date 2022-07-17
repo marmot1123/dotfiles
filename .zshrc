@@ -1,13 +1,13 @@
 # パス
 export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 export PATH=$PATH:/usr/local/texlive/2021/bin/universal-darwin
-export PATH=$PATH:/usr/local/texlive/2021/bin/x86_64-linux
+export PATH=$PATH:/usr/local/texlive/2022/bin/x86_64-linux
 export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/anaconda3/bin
-export MANPATH=$MANPATH:/usr/local/texlive/2021/texmf-dist/doc/man
-export INFOPATH=$INFOPATH:/usr/local/texlive/2021/texmf-dist/doc/info
+export MANPATH=$MANPATH:/usr/local/texlive/2022/texmf-dist/doc/man
+export INFOPATH=$INFOPATH:/usr/local/texlive/2022/texmf-dist/doc/info
 
 export XDG_CONFIG_HOME=$HOME/dotfiles
 
@@ -58,5 +58,7 @@ alias ll='ls -laFh --color'
 alias git=hub
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export LANG="en_US.UTF-8"
 
 ssh-add zsh
