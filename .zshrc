@@ -61,4 +61,6 @@ alias git=hub
 
 export LANG="en_US.UTF-8"
 
-ssh-add zsh
+# ssh-add
+eval "$(ssh-agent)"
+ssh-add .ssh/id_ed25519
