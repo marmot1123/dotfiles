@@ -63,4 +63,4 @@ export LANG="en_US.UTF-8"
 
 # ssh-add
 eval "$(ssh-agent)"
-ssh-add .ssh/id_ed25519
+ssh-add ~/.ssh/id_ed25519
