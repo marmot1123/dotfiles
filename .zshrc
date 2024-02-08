@@ -56,7 +56,6 @@ setopt nolistbeep
 # エイリアス
 alias ls='ls -F --color'
 alias ll='ls -laFh --color'
-alias git=hub
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
