@@ -1,13 +1,14 @@
 # パス
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-export PATH=$PATH:/usr/local/texlive/2021/bin/universal-darwin
-export PATH=$PATH:/usr/local/texlive/2022/bin/x86_64-linux
-export PATH=/usr/local/opt/openssl/bin:$PATH
+export PATH=/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH
+export PATH=/opt/homebrew/anaconda3/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:/usr/local/anaconda3/bin
-export MANPATH=$MANPATH:/usr/local/texlive/2022/texmf-dist/doc/man
-export INFOPATH=$INFOPATH:/usr/local/texlive/2022/texmf-dist/doc/info
+export PATH=$PATH:/usr/local/texlive/2023/bin/universal-darwin
+export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux
+export PATH=$PATH:$HOME/.opam/default/bin
+export PATH=$PATH:$HOME/.cargo/bin
+export MANPATH=$MANPATH:/usr/local/texlive/2023/texmf-dist/doc/man
+export INFOPATH=$INFOPATH:/usr/local/texlive/2023/texmf-dist/doc/info
 
 export XDG_CONFIG_HOME=$HOME/dotfiles
 
@@ -64,3 +65,4 @@ export LANG="en_US.UTF-8"
 # ssh-add
 eval "$(ssh-agent)"
 ssh-add ~/.ssh/id_ed25519
+
