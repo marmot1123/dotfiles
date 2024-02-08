@@ -85,3 +85,5 @@ flycheck_*.el
 .projectile
 
 .vim/bundle
+
+gh/hosts.yml
