@@ -86,4 +86,4 @@ flycheck_*.el
 
 .vim/bundle
 
-gh/hosts.yml
+*.lock.json
