@@ -10,7 +10,7 @@ export PATH=$PATH:$HOME/.cargo/bin
 export MANPATH=$MANPATH:/usr/local/texlive/2023/texmf-dist/doc/man
 export INFOPATH=$INFOPATH:/usr/local/texlive/2023/texmf-dist/doc/info
 
-export XDG_CONFIG_HOME=$HOME/dotfiles
+export XDG_CONFIG_HOME=$HOME/.config
 
 # 補完
 autoload -U compinit
