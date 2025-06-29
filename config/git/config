@@ -26,3 +26,5 @@
 	default = simple
 [diff]
 	tool = vimdiff
+[init]
+	defaultBranch = main

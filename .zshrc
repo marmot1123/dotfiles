@@ -1,14 +1,15 @@
 # パス
+export PATH=~/.npm-global/bin:$PATH
 export PATH=/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH
-export PATH=/opt/homebrew/anaconda3/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:/usr/local/texlive/2023/bin/universal-darwin
-export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux
+export PATH=$PATH:/usr/local/texlive/2024/bin/universal-darwin
+export PATH=$PATH:/usr/local/texlive/2024/bin/x86_64-linux
 export PATH=$PATH:$HOME/.opam/default/bin
 export PATH=$PATH:$HOME/.cargo/bin
-export MANPATH=$MANPATH:/usr/local/texlive/2023/texmf-dist/doc/man
-export INFOPATH=$INFOPATH:/usr/local/texlive/2023/texmf-dist/doc/info
+export PATH=$PATH:/opt/homebrew/opt/postgresql@17/bin:$PATH
+export MANPATH=$MANPATH:/usr/local/texlive/2024/texmf-dist/doc/man
+export INFOPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/info
 
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -63,5 +64,19 @@ export LANG="en_US.UTF-8"
 
 # ssh-add
 eval "$(ssh-agent)"
-ssh-add ~/.ssh/id_ed25519
+if command -v ssh-add >/dev/null 2>&1; then
+  if [[ -n "$SSH_AUTH_SOCK" ]] && [[ $(ssh-add -l 2>/dev/null | wc -l) -eq 0 ]]; then
+    ssh-add --apple-use-keychain ~/.ssh/id_ed25519 2>/dev/null
+  fi
+fi
 
+
+. "$HOME/.cargo/env"
+
+# pnpm
+export PNPM_HOME="/Users/motoki/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

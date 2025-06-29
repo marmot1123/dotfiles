@@ -30,7 +30,7 @@ colorscheme elflord
 
 
 """" Key Bindings """"
-inoremap <silent> jj <ESC>
+inoremap <silent> jk <ESC>
 
 
 filetype plugin indent on
