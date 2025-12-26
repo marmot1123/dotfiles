@@ -3,13 +3,13 @@ export PATH=~/.npm-global/bin:$PATH
 export PATH=/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:/usr/local/texlive/2024/bin/universal-darwin
-export PATH=$PATH:/usr/local/texlive/2024/bin/x86_64-linux
+export PATH=$PATH:/usr/local/texlive/2025/bin/universal-darwin
+export PATH=$PATH:/usr/local/texlive/2025/bin/x86_64-linux
 export PATH=$PATH:$HOME/.opam/default/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:/opt/homebrew/opt/postgresql@17/bin:$PATH
-export MANPATH=$MANPATH:/usr/local/texlive/2024/texmf-dist/doc/man
-export INFOPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/info
+export MANPATH=$MANPATH:/usr/local/texlive/2025/texmf-dist/doc/man
+export INFOPATH=$INFOPATH:/usr/local/texlive/2025/texmf-dist/doc/info
 
 export XDG_CONFIG_HOME=$HOME/.config
 

@@ -1,2 +1,8 @@
--- bootstrap lazy.nvim, LazyVim and your plugins
-require("config.lazy")
+-- オプション
+require('options')
+
+-- キーマップ
+require('keymaps')
+
+-- プラグイン
+require('plugins')
