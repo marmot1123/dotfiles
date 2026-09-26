@@ -69,7 +69,7 @@ Makefile
 - `home/linux.nix` や `darwin/` は、具体的な対象・必要性ができてから追加する。
 - NeovimのLua等は元の形式を保ち、Home Managerで配置と依存を管理する。不要なNix DSLへの全面翻訳は避ける。
 - OS共通設定とOS固有設定を分ける。個人の絶対パスや特定のTeX年度・CPU構成を不用意に新設定へ引き継がない。
-- zsh/fishのどちらを主に使うかは未確定。ログインシェル、ロケール、キーバインド、Finder/Dock等の好みを勝手に変更しない。
+- ログインシェルとGhosttyの起動シェルはApple標準の `/bin/zsh`。普段の作業ではユーザーが `fish` を手動で起動する。fishの自動起動は設定しない。基本言語は英語（`LANG=en_US.UTF-8`）。これらとキーバインド、Finder/Dock等の好みを勝手に変更しない。
 - Nix/Home Managerの互換性、パッケージ名、インストーラーの手順は実装時に公式資料で確認する。計画書のバージョン候補や推奨インストーラーを永続的な決定として扱わない。
 - `flake.lock` は実際に生成し、`flake.nix` とともに追跡する。revisionやhashを捏造しない。
 - NixのlockがOS・SDK・GUIアプリ・研究データ・数値結果まで固定すると説明しない。既存の `Brewfile.lock.json` も過去版を完全復元する保証として扱わない。

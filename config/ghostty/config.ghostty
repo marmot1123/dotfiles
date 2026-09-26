@@ -1,0 +1,16 @@
+# Apple 標準の zsh で起動する。fish は必要なときに手動で起動する。
+command = /bin/zsh
+shell-integration = detect
+
+# 以前の XDG 側と macOS 側の設定から、現在の見た目を引き継ぐ。
+font-family = "InconsolataGo Nerd Font Mono"
+font-family = "Bizin Gothic"
+font-family = "InconsolataGo Nerd Font"
+font-size = 16
+adjust-cell-height = 20%
+window-padding-x = 10
+window-padding-y = 10
+window-padding-balance = true
+clipboard-read = allow
+clipboard-write = allow
+cursor-style = block
