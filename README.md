@@ -2,6 +2,7 @@
 
 macOS の研究・執筆・開発環境を、既存の作業を保ちながら段階的に整理する。
 
+- [新しい Mac の SSH 鍵作成・GitHub 認証](docs/git-ssh.md)
 - [シェルの構成・確認・復旧手順](docs/shells.md)
 
 Ghostty・Apple のターミナルともに Apple の zsh で起動する。

@@ -2,15 +2,29 @@
 command = /bin/zsh
 shell-integration = detect
 
-# 以前の XDG 側と macOS 側の設定から、現在の見た目を引き継ぐ。
-font-family = "InconsolataGo Nerd Font Mono"
+# 新しいウィンドウ・タブ・ペインはホームディレクトリから始める。
+working-directory = home
+window-inherit-working-directory = false
+tab-inherit-working-directory = false
+split-inherit-working-directory = false
+
+# シェルが入力待ちなら確認を省略し、前面でコマンド実行中なら確認する。
+confirm-close-surface = true
+
+# 英字・日本語ともに Bizin Gothic 通常版を使い、リガチャを無効にする。
 font-family = "Bizin Gothic"
-font-family = "InconsolataGo Nerd Font"
+font-feature = -calt, -liga, -dlig
 font-size = 16
-adjust-cell-height = 20%
+adjust-cell-height = 40%
 window-padding-x = 10
 window-padding-y = 10
 window-padding-balance = true
 clipboard-read = allow
 clipboard-write = allow
 cursor-style = block
+
+# Ghostty のペイン移動。Vim 内の Ctrl+w 系の操作と使い分ける。
+keybind = super+ctrl+h=goto_split:left
+keybind = super+ctrl+j=goto_split:down
+keybind = super+ctrl+k=goto_split:up
+keybind = super+ctrl+l=goto_split:right

@@ -90,7 +90,7 @@ Makefile
 ## 個別環境で守ること
 
 - **シェル**: PATHの重複とOS混在を整理し、任意の初期化ファイルは存在確認して読む。シェルごとに `ssh-agent` を増やさず、macOSの既存エージェントを基本にする。GNU向け `ls` エイリアスは解決先と整合させる。
-- **Git**: 認証ヘルパーをOS別に扱う。参照される `.gitignore_global` の配置とGit LFSの依存を確認する。
+- **Git**: 認証ヘルパーをOS別に扱う。参照される `.gitignore_global` の配置とGit LFSの依存を確認する。 GitHubのGit操作はSSH公開鍵認証を基本とし、新しいMacでは端末専用のパスフレーズ付きEd25519鍵を早期に新規作成する。鍵生成・公開鍵登録は本人の手動工程として `docs/git-ssh.md` に記録する。SSH設定は `config/ssh/config` で管理し、秘密鍵・ghの認証情報はGitに追加しない。
 - **tmux**: 旧式の色・属性指定を `*-style` 形式へ整理する際も、`C-k` プレフィックス、分割・移動キー等の好みを保つ。
 - **Rust / Node**: Rustはまずrustupを管理元とする案を基本にし、HomebrewのRustやNixのrustc/cargoと通常環境で重ねない。toolchain・Node・pnpmの版とlockはプロジェクトで管理し、共同開発者にNixを必須化しない。
 - **Python**: 新規プロジェクトはuv・`pyproject.toml`・`uv.lock`・`.venv`を基本案とする。既存のConda環境は研究の移行が済むまで保持し、共同研究の指定を尊重する。

@@ -9,6 +9,7 @@
 [core]
 	editor = vim -c \"set fenc=utf-8\"
 	excludesfile = /Users/motoki/.gitignore_global
+	quotePath = false
 	diff = auto
 	status = auto
 [difftool "sourcetree"]
@@ -22,6 +23,10 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[merge]
+	conflictStyle = zdiff3
+[pull]
+	ff = only
 [push]
 	default = simple
 [diff]

@@ -1,0 +1,15 @@
+# GitHub の認証には、その Mac 専用の Ed25519 鍵を使う。
+# macOS の SSH を基本にし、UseKeychain 非対応のクライアントでも読めるようにする。
+IgnoreUnknown UseKeychain
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+    PreferredAuthentications publickey
+
+# 既存の Keychain・エージェント利用を維持する。
+Host *
+    AddKeysToAgent yes
+    UseKeychain yes
