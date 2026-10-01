@@ -22,6 +22,13 @@ for app in 1Password 'Google Chrome' Slack Ghostty ChatGPT Dropbox; do
         missing=$((missing + 1))
     fi
 done
+printf '\n%s\n' 'Input methods:'
+if [ -d '/Library/Input Methods/GoogleJapaneseInput.app' ] || [ -d "$HOME/Library/Input Methods/GoogleJapaneseInput.app" ]; then
+    printf '%s\n' '  Google Japanese Input: present (activation, dictionary, and key settings are not checked)'
+else
+    printf '%s\n' '  Google Japanese Input: MISSING'
+    missing=$((missing + 1))
+fi
 if [ ! -f "$repo_root/flake.lock" ]; then
     printf '\n%s\n' 'flake.lock: MISSING; generate and build-check it before applying.'
     missing=$((missing + 1))
@@ -41,5 +48,6 @@ if ! /bin/bash "$repo_root/scripts/preflight-home.sh" "$HOME"; then
     missing=$((missing + 1))
 fi
 printf '\n%s\n' 'Manually verify Bizin Gothic, 1Password/Chrome/Slack/ChatGPT/Dropbox sign-in, Dropbox sync, GitHub SSH authentication, and English UI.'
+printf '%s\n' 'Manually verify Google Japanese Input activation, user dictionary migration, and Ctrl+J / Ctrl+K conversion.'
 printf '%s\n' 'Run this in the new Mac terminal: paths in an agent process may differ from your interactive shell.'
 if [ "$missing" -ne 0 ]; then exit 1; fi

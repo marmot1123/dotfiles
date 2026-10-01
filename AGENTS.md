@@ -92,7 +92,7 @@ Makefile
 - `bootstrap`: 既存のNix/Homebrewと前提条件を検出し、再インストールを避ける。SSH鍵なしでもHTTPSから開始できるようにする。
 
 当面の bootstrap は手動手順の案内のみ。初回の lock 生成は `init-lock`、GUI アプリの導入は `apps` として、通常の `apply` から分離する。
-最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
+最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
 
 配置処理は冪等にし、既存ファイルとの衝突時には停止して対象を示す。バックアップは元のパスと復元方法を記録し、再実行で上書きしない。通常適用で自動削除やGCを行わず、移行が安定するまで旧世代を残す。
 

@@ -2,7 +2,7 @@
 
 最初の完了条件は、Chrome と Slack で連絡を取れ、1Password・ChatGPT・Dropbox と、Ghostty 上の zsh・fish・Git を使えること。
 新 Mac は未起動の状態から始める。Nix Flakes と standalone Home Manager で共通 CLI と設定を管理し、
-GUI アプリは Homebrew に分ける。Python・TeX・研究データ・LumenCite・Neovim の移行は次の段階にする。
+GUI アプリと Google 日本語入力は Homebrew に分ける。Python・TeX・研究データ・LumenCite・Neovim の移行は次の段階にする。
 
 ## 準備済みの構成と検証状況
 
@@ -10,7 +10,7 @@ GUI アプリは Homebrew に分ける。Python・TeX・研究データ・LumenC
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT、Dropbox |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT、Dropbox、Google 日本語入力 |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
 
 `flake.nix` は nixpkgs の `nixos-26.05` と Home Manager の `release-26.05` を入力にする。
@@ -117,7 +117,7 @@ fish の履歴や `fish_variables` は Home Manager の配置対象にしない�
 SSH 鍵や gh の認証情報はリポジトリに置かず、Nix store にも入れない。
 既存シェル設定中の TeX・言語環境への任意 PATH はディレクトリが存在するときだけ有効になり、初回導入ではそれらのツールはインストールしない。
 
-## 5 GUI アプリとフォント
+## 5 GUI アプリ・日本語入力・フォント
 
 Homebrew の有無を確認し、未導入の場合だけ [公式インストール手順](https://docs.brew.sh/Installation)を実行する。
 インストーラーが表示する PATH の案内を確認し、新しい Terminal で `brew --version` が動くことを確認する。
@@ -129,9 +129,17 @@ cd "$HOME/dotfiles"
 make apps
 ```
 
-対象は `Brewfile.macos` の6アプリのみ。既存アプリの upgrade と自動 cleanup は行わない。
+対象は `Brewfile.macos` に記載した GUI アプリと日本語 IME のみ。既存アプリの upgrade と自動 cleanup は行わない。
 旧 `Brewfile` を指定した `brew bundle` は実行しない。
 すでに公式配布などでアプリを入れた場合は、その管理元を確認してから進め、強制的に置き換えない。
+
+Google 日本語入力は `google-japanese-ime` cask が公式のパッケージインストーラーを実行する。
+管理者認証や再ログインを求められた場合は、画面の案内に従う。
+導入後は「システム設定」→「キーボード」→「テキスト入力」の「編集」で、Google 日本語入力が有効になっているか確認する。
+入力メニューで「ひらがな（Google）」を選び、未確定の文字を Ctrl+J でひらがな、Ctrl+K でカタカナに変換できることを確認する。
+キー設定は「ことえり」を基本に、旧 Mac で独自設定を使っていた場合は設定画面からエクスポート・インポートする。
+ユーザー辞書も辞書ツールから書き出して新 Mac に取り込み、よく使う語を確認する。
+辞書・学習履歴は個人データとして別途保管し、公開 Git や Nix store に追加しない。
 
 Bizin Gothic は [公式 Releases](https://github.com/yuru7/bizin-gothic/releases) から通常版を取得し、Font Book でインストールする。
 Ghostty が指定するファミリー名は `Bizin Gothic`。配色・ブロックカーソル・16pt・行高40%追加・リガチャ無効の既存設定を使う。
@@ -139,7 +147,7 @@ Ghostty が指定するファミリー名は `Bizin Gothic`。配色・ブロッ
 まず 1Password にログインし、必要な保管庫を開けることを確認する。
 Chrome で必要な Google アカウントへ、Slack で必要なワークスペースへ、ChatGPT で利用するアカウントへログインする。
 Dropbox にログインし、必要なフォルダの同期設定と同期状態を確認する。
-同期や通知の許可は、画面を確認して本人が設定する。この6アプリ以外は必要になってから追加する。
+同期や通知の許可は、画面を確認して本人が設定する。その他のアプリは必要になってから追加する。
 
 ## 6 最初の完了確認
 
@@ -148,7 +156,8 @@ cd "$HOME/dotfiles"
 make doctor
 ```
 
-doctor はコマンドの解決先・アプリの存在・lock・公開鍵・開発ツールの有無、設定先の親パスと重複設定を確認する。
+doctor はコマンドの解決先・アプリと Google 日本語入力の実体の存在・lock・公開鍵・開発ツールの有無、設定先の親パスと重複設定を確認する。
+Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input Methods/` の実体だけを調べ、入力ソースの有効化や変換動作は手動で確認する。
 修復や認証テストはしない。配置先の個々のファイルの衝突は Home Manager の適用前チェックで確認する。
 エージェント内の PATH は通常のターミナルと異なることがあるため、新 Mac の Terminal または Ghostty で実行する。
 
@@ -157,6 +166,7 @@ doctor はコマンドの解決先・アプリの存在・lock・公開鍵・開
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
 - Dropbox にログインし、必要なフォルダの同期状態を確認できる。インストール完了とデータの同期完了は分けて確認する。
+- Google 日本語入力で入力でき、Ctrl+J / Ctrl+K の変換と必要なユーザー辞書を使える。
 - Ghostty が zsh で起動し、手動の `fish`、フォント、日本語表示、Cmd+T が使える。
 - `ssh -T git@github.com` で自分のアカウントの認証成功を確認できる。
 - [git-ssh.md](git-ssh.md)の gh ログイン手順を完了し、`gh auth status` を確認できる。
@@ -191,3 +201,6 @@ Neovim のプラグイン lock など、アプリが書き換えるファイル�
 - [1Password の cask](https://formulae.brew.sh/cask/1password)
 - [ChatGPT の cask](https://formulae.brew.sh/cask/chatgpt)
 - [Dropbox の cask](https://formulae.brew.sh/cask/dropbox)
+- [Google 日本語入力の cask](https://formulae.brew.sh/cask/google-japanese-ime)
+- [Google 日本語入力のキー設定](https://support.google.com/ime/japanese/answer/166764?hl=ja)
+- [macOS の入力ソース設定](https://support.apple.com/ja-jp/guide/mac-help/mchlp1406/mac)

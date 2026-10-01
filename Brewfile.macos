@@ -1,7 +1,8 @@
-# 新 Mac の最初の GUI アプリ。共通 CLI は Home Manager が管理する。
+# 新 Mac の最初の GUI アプリ・日本語 IME。共通 CLI は Home Manager が管理する。
 cask "1password"
 cask "google-chrome"
 cask "slack"
 cask "ghostty"
 cask "chatgpt"
 cask "dropbox"
+cask "google-japanese-ime"

@@ -21,7 +21,7 @@ Nix / standalone Home Manager の最小構成と、検証・適用を分ける�
 
 1. **初期設定と認証**: 新 Mac の既存設定・データの移行状況を確認し、端末専用の SSH 鍵を作成・登録する。
 2. **設定の配置と管理元**: Nix / Home Manager で共通 CLI と設定を管理し、生成した lock を build で検証して適用する。
-3. **連絡と基本操作**: `Brewfile.macos` で 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox を導入し、フォント、ログイン、同期、GitHub 認証を確認する。
+3. **連絡と基本操作**: `Brewfile.macos` で 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力を導入し、フォント、日本語入力、ログイン、同期、GitHub 認証を確認する。
 4. **開発と研究環境**: Neovim・Python・TeX・その他の GUI アプリ・LumenCite のデータと認証を必要な順で移す。
 
 シェル・Ghostty・Git/SSH・エディタの基本設定は、このリポジトリで整備中。
@@ -29,7 +29,7 @@ Nix / standalone Home Manager の最小構成と、検証・適用を分ける�
 移行前に必要な変更をコミット・公開し、新 Mac で取得した版に設定と lock file が含まれることを確認する。
 
 旧 `Brewfile` は履歴用に残し、新 Mac の一括導入には使わない。
-GUI アプリは確認済みの最小一覧 `Brewfile.macos` を `make apps` で導入する。
+GUI アプリ・日本語 IME は確認済みの最小一覧 `Brewfile.macos` を `make apps` で導入する。
 旧 Mac の研究データ・既存環境は、新 Mac で代表的な作業を確認するまで保持する。
 
 スクリプトの検証は `python3 tests/test_setup.py`。これは Nix / Homebrew を仮のコマンドに置き換える検証で、実機の build・適用・ログインを保証するものではない。
