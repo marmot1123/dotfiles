@@ -1,6 +1,6 @@
 # 新しい Mac の最小セットアップ
 
-最初の完了条件は、Chrome と Slack で連絡を取れ、1Password・ChatGPT と、Ghostty 上の zsh・fish・Git を使えること。
+最初の完了条件は、Chrome と Slack で連絡を取れ、1Password・ChatGPT・Dropbox と、Ghostty 上の zsh・fish・Git を使えること。
 新 Mac は未起動の状態から始める。Nix Flakes と standalone Home Manager で共通 CLI と設定を管理し、
 GUI アプリは Homebrew に分ける。Python・TeX・研究データ・LumenCite・Neovim の移行は次の段階にする。
 
@@ -10,7 +10,7 @@ GUI アプリは Homebrew に分ける。Python・TeX・研究データ・LumenC
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT、Dropbox |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
 
 `flake.nix` は nixpkgs の `nixos-26.05` と Home Manager の `release-26.05` を入力にする。
@@ -28,7 +28,7 @@ lock がない状態では `make apply` は停止する。シェルスクリプ�
 1. macOS の案内に従い、ネットワーク・アカウント・Apple Account を設定する。システム言語は English。
 2. 自分の短いアカウント名を確認する。設定とデータは必要なものから移すため、今回は移行アシスタントで旧環境を一括コピーすることを前提にしない。
 3. Apple の Terminal を開き、`id -un` と `echo "$SHELL"` を確認する。ログインシェルは `/bin/zsh` のままにする。
-4. 1Password・GitHub・Slack・Google・ChatGPT のログインと二要素認証に使う手段を手元に用意する。パスワードやコードを dotfiles に保存しない。
+4. 1Password・GitHub・Slack・Google・ChatGPT・Dropbox のログインと二要素認証に使う手段を手元に用意する。パスワードやコードを dotfiles に保存しない。
 
 以下のコマンドは zsh で実行する。
 
@@ -129,7 +129,7 @@ cd "$HOME/dotfiles"
 make apps
 ```
 
-対象は `Brewfile.macos` の5アプリのみ。既存アプリの upgrade と自動 cleanup は行わない。
+対象は `Brewfile.macos` の6アプリのみ。既存アプリの upgrade と自動 cleanup は行わない。
 旧 `Brewfile` を指定した `brew bundle` は実行しない。
 すでに公式配布などでアプリを入れた場合は、その管理元を確認してから進め、強制的に置き換えない。
 
@@ -138,7 +138,8 @@ Ghostty が指定するファミリー名は `Bizin Gothic`。配色・ブロッ
 
 まず 1Password にログインし、必要な保管庫を開けることを確認する。
 Chrome で必要な Google アカウントへ、Slack で必要なワークスペースへ、ChatGPT で利用するアカウントへログインする。
-同期や通知の許可は、画面を確認して本人が設定する。この5アプリ以外は必要になってから追加する。
+Dropbox にログインし、必要なフォルダの同期設定と同期状態を確認する。
+同期や通知の許可は、画面を確認して本人が設定する。この6アプリ以外は必要になってから追加する。
 
 ## 6 最初の完了確認
 
@@ -155,6 +156,7 @@ doctor はコマンドの解決先・アプリの存在・lock・公開鍵・開
 - Slack の目的のワークスペースを開き、既存の会話を読める。
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
+- Dropbox にログインし、必要なフォルダの同期状態を確認できる。インストール完了とデータの同期完了は分けて確認する。
 - Ghostty が zsh で起動し、手動の `fish`、フォント、日本語表示、Cmd+T が使える。
 - `ssh -T git@github.com` で自分のアカウントの認証成功を確認できる。
 - [git-ssh.md](git-ssh.md)の gh ログイン手順を完了し、`gh auth status` を確認できる。
@@ -188,3 +190,4 @@ Neovim のプラグイン lock など、アプリが書き換えるファイル�
 - [Ghostty の cask](https://formulae.brew.sh/cask/ghostty)
 - [1Password の cask](https://formulae.brew.sh/cask/1password)
 - [ChatGPT の cask](https://formulae.brew.sh/cask/chatgpt)
+- [Dropbox の cask](https://formulae.brew.sh/cask/dropbox)

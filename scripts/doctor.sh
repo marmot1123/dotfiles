@@ -14,7 +14,7 @@ for tool in nix home-manager brew git git-lfs gh fish fzf fd rg; do
     fi
 done
 printf '\n%s\n' 'Applications:'
-for app in 1Password 'Google Chrome' Slack Ghostty ChatGPT; do
+for app in 1Password 'Google Chrome' Slack Ghostty ChatGPT Dropbox; do
     if [ -d "/Applications/$app.app" ] || [ -d "$HOME/Applications/$app.app" ]; then
         printf '  %s: present (launch and sign-in are not checked)\n' "$app"
     else
@@ -40,6 +40,6 @@ printf '\n%s\n' 'Configuration parent paths and overlapping files:'
 if ! /bin/bash "$repo_root/scripts/preflight-home.sh" "$HOME"; then
     missing=$((missing + 1))
 fi
-printf '\n%s\n' 'Manually verify Bizin Gothic, 1Password/Chrome/Slack/ChatGPT sign-in, GitHub SSH authentication, and English UI.'
+printf '\n%s\n' 'Manually verify Bizin Gothic, 1Password/Chrome/Slack/ChatGPT/Dropbox sign-in, Dropbox sync, GitHub SSH authentication, and English UI.'
 printf '%s\n' 'Run this in the new Mac terminal: paths in an agent process may differ from your interactive shell.'
 if [ "$missing" -ne 0 ]; then exit 1; fi

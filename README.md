@@ -16,12 +16,12 @@ Nix / standalone Home Manager の最小構成と、検証・適用を分ける�
 
 ## 新しい Mac に向けた優先順位
 
-最初の目標は **Chrome・Slack で連絡が取れ、1Password・ChatGPT・ターミナル・Git が使える状態**。
+最初の目標は **Chrome・Slack で連絡が取れ、1Password・ChatGPT・Dropbox・ターミナル・Git が使える状態**。
 細かな操作や追加プラグインの調整は後に回す。
 
 1. **初期設定と認証**: 新 Mac の既存設定・データの移行状況を確認し、端末専用の SSH 鍵を作成・登録する。
 2. **設定の配置と管理元**: Nix / Home Manager で共通 CLI と設定を管理し、生成した lock を build で検証して適用する。
-3. **連絡と基本操作**: `Brewfile.macos` で 1Password・Chrome・Slack・Ghostty・ChatGPT を導入し、フォント、ログイン、GitHub 認証を確認する。
+3. **連絡と基本操作**: `Brewfile.macos` で 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox を導入し、フォント、ログイン、同期、GitHub 認証を確認する。
 4. **開発と研究環境**: Neovim・Python・TeX・その他の GUI アプリ・LumenCite のデータと認証を必要な順で移す。
 
 シェル・Ghostty・Git/SSH・エディタの基本設定は、このリポジトリで整備中。
