@@ -1,0 +1,17 @@
+{
+  "plugins": {
+    "fzf-lua": {
+      "rev": "78b85d2a522b1e6a2d154216b3e532a1df1ad6d7",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "kanagawa.nvim": {
+      "rev": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+      "src": "https://github.com/rebelot/kanagawa.nvim"
+    },
+    "nvim-treesitter": {
+      "rev": "25a9b06a09ea4e10712bec37e7b7d9f423262b91",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    }
+  }
+}

@@ -7,8 +7,8 @@
 [credential]
 	helper = osxkeychain
 [core]
-	editor = vim -c \"set fenc=utf-8\"
-	excludesfile = /Users/motoki/.gitignore_global
+	editor = /usr/bin/vim
+	excludesfile = ~/.gitignore_global
 	quotePath = false
 	diff = auto
 	status = auto

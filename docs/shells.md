@@ -92,7 +92,8 @@ fish は `config.fish` で環境を用意し、zsh の実行に依存しない�
 既に正しいリンクなら作業は不要。別のファイル・リンクがある場合は停止して内容を確認し、
 上書きしない場所へバックアップしてから配置する。
 **現行 Makefile の install/deploy/clean は使わない。**
-この段階では汎用の配置スクリプトや Nix/Home Manager は導入していない。
+旧 Mac はこのリンク配置を維持する。新 Mac 用には [最小セットアップ](macos-setup.md)の Home Manager 構成を用意した。
+新 Mac では同じ設定を Nix store 経由で配置し、設定変更後に `make apply` で反映する。旧 Mac への Home Manager 適用は行っていない。
 
 Ghostty は XDG 配下と
 `~/Library/Application Support/com.mitchellh.ghostty/` 配下の設定を両方読み込む。

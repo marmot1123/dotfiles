@@ -22,12 +22,19 @@
 
 ## 現行Makefileの扱い
 
-安全な実装へ置き換えて検証するまで、引数なしの `make`、`make all`、`make install`、`make deploy`、`make clean` を実行しない。
+旧 Makefile の一括リンク・削除・Git pull は廃止した。
+現在は引数なしの `make` / `make all` がヘルプ、`make list` が追跡ファイルの一覧を表示するだけ。
+`install` / `deploy` / `clean` は変更せずにエラー終了する。`bootstrap` は手順を案内するだけ。
+`init-lock` / `check` / `build` / `apply` / `update` は `scripts/home.sh`、`apps` は最小 GUI 一覧の `Brewfile.macos` を使う。
+`doctor` は読み取り専用の確認。旧 Mac には Nix がないため、flake.lock の生成・Nix の評価と build・Home Manager の実適用は未検証。
+実行ラッパーの停止条件等は仮のコマンドで検証するが、Nix 本体の検証済みとは扱わない。
 
-- `EXCLUDIONS` の定義と `EXCLUSIONS` の参照が不一致で、`.git` 等の除外が効いていない。
-- `deploy` はバックアップなしで `ln -sfnv` を実行し、`clean` はホーム側の対象を `rm -vrf` で削除する。
-- `install` は `git pull` を含み、更新と適用が混ざっている。現行の `make update` も新しい更新フローではない。
-- 対象はルートの `.??*` のみで、`config/` 以下は `~/.config/` に配置されない。
+旧版には次の問題があったため、そのまま復活させない。
+
+- `EXCLUDIONS` の定義と `EXCLUSIONS` の参照が不一致で、`.git` 等の除外が効かなかった。
+- `deploy` はバックアップなしの `ln -sfnv`、`clean` はホーム側の対象の `rm -vrf` を行っていた。
+- `install` は `git pull` を含み、更新と適用が混ざっていた。
+- 対象はルートの `.??*` のみで、`config/` 以下を `~/.config/` に配置できなかった。
 
 ホーム側の `.git` や既存設定を、dotfiles由来と推測して削除しない。リンク先・実体・所有する管理方式を確認する。Makefileの検証が必要なら一時ディレクトリと仮の配置先を用い、実ホームへ適用しない。
 
@@ -51,7 +58,8 @@ Home Managerを後からnix-darwinへ統合する場合は、standaloneと同じ
 
 現在の主な設定は、ルートの `.zshrc`、`.bash_profile`、`.vimrc`、`.tmux.conf`、`.latexmkrc` と、`config/git/`、`config/nvim/`、`config/fish/` にある。READMEはまだ最小限で、共通のテスト基盤はない。
 
-今後の構成候補（現時点で実装済みという意味ではない）:
+現在 `flake.nix`、`home/default.nix`、`home/macos.nix`、操作別の `scripts/`、`docs/macos-setup.md` に最小構成を用意している。
+`flake.lock` は Nix がある環境で実際に生成・検証する。以下は最終形の候補であり、すべて実装済みという意味ではない:
 
 ```text
 flake.nix / flake.lock
@@ -76,12 +84,15 @@ Makefile
 
 ## 適用・更新・診断の分離
 
-以下はこれから実装する操作の契約であり、現行Makefileの使い方ではない。
+操作の契約は次のとおり。最小構成の具体的なコマンドと未検証事項は `docs/macos-setup.md` を参照する。
 
 - `apply`: 検証済みlockから適用する。Git pull、flake update、brew upgrade、自動cleanupを含めない。
 - `update`: 明示的に依存の版を更新し、build・doctor・代表的な実作業を確認する。設定適用と混同しない。
 - `doctor`: 不足、競合、コマンドの解決先、残る手動作業を表示する。勝手に修復・インストールしない。
 - `bootstrap`: 既存のNix/Homebrewと前提条件を検出し、再インストールを避ける。SSH鍵なしでもHTTPSから開始できるようにする。
+
+当面の bootstrap は手動手順の案内のみ。初回の lock 生成は `init-lock`、GUI アプリの導入は `apps` として、通常の `apply` から分離する。
+最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
 
 配置処理は冪等にし、既存ファイルとの衝突時には停止して対象を示す。バックアップは元のパスと復元方法を記録し、再実行で上書きしない。通常適用で自動削除やGCを行わず、移行が安定するまで旧世代を残す。
 
@@ -90,6 +101,7 @@ Makefile
 ## 個別環境で守ること
 
 - **シェル**: PATHの重複とOS混在を整理し、任意の初期化ファイルは存在確認して読む。シェルごとに `ssh-agent` を増やさず、macOSの既存エージェントを基本にする。GNU向け `ls` エイリアスは解決先と整合させる。
+- **Vim / Neovim**: VimはApple標準のVimで使える、外部プラグインに依存しない最小構成にする。Neovimは主用途に合わせて段階的に拡張する。両方とも挿入モードの `jk` → Escを維持し、既定のインデントはスペース4個とする。ファイルタイプ・プロジェクト固有の指定を尊重する。構成と復旧方法は `docs/editors.md` に記録する。
 - **Git**: 認証ヘルパーをOS別に扱う。参照される `.gitignore_global` の配置とGit LFSの依存を確認する。 GitHubのGit操作はSSH公開鍵認証を基本とし、新しいMacでは端末専用のパスフレーズ付きEd25519鍵を早期に新規作成する。鍵生成・公開鍵登録は本人の手動工程として `docs/git-ssh.md` に記録する。SSH設定は `config/ssh/config` で管理し、秘密鍵・ghの認証情報はGitに追加しない。
 - **tmux**: 旧式の色・属性指定を `*-style` 形式へ整理する際も、`C-k` プレフィックス、分割・移動キー等の好みを保つ。
 - **Rust / Node**: Rustはまずrustupを管理元とする案を基本にし、HomebrewのRustやNixのrustc/cargoと通常環境で重ねない。toolchain・Node・pnpmの版とlockはプロジェクトで管理し、共同開発者にNixを必須化しない。

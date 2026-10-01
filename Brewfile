@@ -1,3 +1,4 @@
+# 旧 Mac の履歴用一覧。新 Mac の最小構成は Brewfile.macos を使う。
 tap "homebrew/bundle"
 brew "coreutils"
 brew "fd"
@@ -8,6 +9,7 @@ brew "git"
 brew "julia"
 brew "jesseduffield/lazygit/lazygit"
 brew "neovim"
+brew "tree-sitter-cli"
 brew "node"
 brew "opam"
 brew "ripgrep"
