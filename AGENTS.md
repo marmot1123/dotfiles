@@ -25,7 +25,7 @@
 旧 Makefile の一括リンク・削除・Git pull は廃止した。
 現在は引数なしの `make` / `make all` がヘルプ、`make list` が追跡ファイルの一覧を表示するだけ。
 `install` / `deploy` / `clean` は変更せずにエラー終了する。`bootstrap` は手順を案内するだけ。
-`init-lock` / `check` / `build` / `apply` / `update` は `scripts/home.sh`、`apps` は最小 GUI 一覧の `Brewfile.macos` を使う。
+`init-lock` / `check` / `build` / `apply` / `update` は `scripts/home.sh`、`apps` は GUI・IME・Codex CLI の最小一覧 `Brewfile.macos` を使う。
 `doctor` は読み取り専用の確認。旧 Mac には Nix がないため、flake.lock の生成・Nix の評価と build・Home Manager の実適用は未検証。
 実行ラッパーの停止条件等は仮のコマンドで検証するが、Nix 本体の検証済みとは扱わない。
 
@@ -51,6 +51,7 @@
 | データ・認証 | dotfilesとは別のバックアップと移行チェックリストで管理 |
 
 同じ役割のツールをNixとHomebrewで重複管理しない。ただしOS標準ツールやcaskの依存formulaを機械的に削除しない。実際に解決されるコマンドとPATHを確認する。
+Codex CLI は単独で更新しやすいよう、Homebrew cask `codex` で管理する例外とする。新 Mac では Nix・npm・standalone installer と重複導入しない。
 
 Home Managerを後からnix-darwinへ統合する場合は、standaloneと同じ設定を二重にactivateしない。Brewfileとnix-darwinでもcask一覧を二重管理しない。
 
@@ -91,8 +92,8 @@ Makefile
 - `doctor`: 不足、競合、コマンドの解決先、残る手動作業を表示する。勝手に修復・インストールしない。
 - `bootstrap`: 既存のNix/Homebrewと前提条件を検出し、再インストールを避ける。SSH鍵なしでもHTTPSから開始できるようにする。
 
-当面の bootstrap は手動手順の案内のみ。初回の lock 生成は `init-lock`、GUI アプリの導入は `apps` として、通常の `apply` から分離する。
-最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
+当面の bootstrap は手動手順の案内のみ。初回の lock 生成は `init-lock`、Homebrew 管理対象の導入は `apps` として、通常の `apply` から分離する。
+最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
 
 配置処理は冪等にし、既存ファイルとの衝突時には停止して対象を示す。バックアップは元のパスと復元方法を記録し、再実行で上書きしない。通常適用で自動削除やGCを行わず、移行が安定するまで旧世代を残す。
 

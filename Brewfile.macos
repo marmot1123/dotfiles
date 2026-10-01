@@ -1,4 +1,4 @@
-# 新 Mac の最初の GUI アプリ・日本語 IME。共通 CLI は Home Manager が管理する。
+# 新 Mac の GUI アプリ・日本語 IME・Codex CLI。共通 CLI は基本的に Home Manager が管理する。
 cask "1password"
 cask "google-chrome"
 cask "slack"
@@ -6,3 +6,5 @@ cask "ghostty"
 cask "chatgpt"
 cask "dropbox"
 cask "google-japanese-ime"
+# Codex CLI は単独で更新できるよう、Homebrew 管理の例外とする。
+cask "codex"

@@ -2,7 +2,7 @@
 
 最初の完了条件は、Chrome と Slack で連絡を取れ、1Password・ChatGPT・Dropbox と、Ghostty 上の zsh・fish・Git を使えること。
 新 Mac は未起動の状態から始める。Nix Flakes と standalone Home Manager で共通 CLI と設定を管理し、
-GUI アプリと Google 日本語入力は Homebrew に分ける。Python・TeX・研究データ・LumenCite・Neovim の移行は次の段階にする。
+GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。Python・TeX・研究データ・LumenCite・Neovim の移行は次の段階にする。
 
 ## 準備済みの構成と検証状況
 
@@ -10,7 +10,7 @@ GUI アプリと Google 日本語入力は Homebrew に分ける。Python・TeX�
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT、Dropbox、Google 日本語入力 |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Codex CLI |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
 
 `flake.nix` は nixpkgs の `nixos-26.05` と Home Manager の `release-26.05` を入力にする。
@@ -117,21 +117,36 @@ fish の履歴や `fish_variables` は Home Manager の配置対象にしない�
 SSH 鍵や gh の認証情報はリポジトリに置かず、Nix store にも入れない。
 既存シェル設定中の TeX・言語環境への任意 PATH はディレクトリが存在するときだけ有効になり、初回導入ではそれらのツールはインストールしない。
 
-## 5 GUI アプリ・日本語入力・フォント
+## 5 GUI アプリ・日本語入力・Codex CLI・フォント
 
 Homebrew の有無を確認し、未導入の場合だけ [公式インストール手順](https://docs.brew.sh/Installation)を実行する。
 インストーラーが表示する PATH の案内を確認し、新しい Terminal で `brew --version` が動くことを確認する。
 既存の Home Manager 管理ファイルに案内を追記する必要がある場合は、直接リンク先を書き換えずリポジトリ側を編集する。
 今回の zprofile は既存 Homebrew の配置を検出する。
 
+Codex CLI は単独で更新できるよう Homebrew 管理の例外とし、`codex` cask を使う。
+既に導入済みの場合は `type -a codex` で解決先を確認する。npm・Nix・standalone installer 由来のものがある場合は、管理元の整理を先に行い、重複導入しない。
+
 ```zsh
 cd "$HOME/dotfiles"
 make apps
 ```
 
-対象は `Brewfile.macos` に記載した GUI アプリと日本語 IME のみ。既存アプリの upgrade と自動 cleanup は行わない。
+対象は `Brewfile.macos` に記載した GUI アプリ・日本語 IME・Codex CLI のみ。既存のパッケージの upgrade と自動 cleanup は行わない。
 旧 `Brewfile` を指定した `brew bundle` は実行しない。
 すでに公式配布などでアプリを入れた場合は、その管理元を確認してから進め、強制的に置き換えない。
+
+Codex CLI の導入後は、新しいターミナルで次を確認する。
+
+```zsh
+command -v codex
+codex --version
+cd "$HOME/dotfiles"
+codex
+```
+
+`codex` が Homebrew の `bin` を指すことを確認し、初回起動時に **Sign in with ChatGPT** を選んで本人がログインする。
+認証情報・セッション履歴は dotfiles や Nix store に含めない。Home Manager で `~/.codex` 全体を配置しない。
 
 Google 日本語入力は `google-japanese-ime` cask が公式のパッケージインストーラーを実行する。
 管理者認証や再ログインを求められた場合は、画面の案内に従う。
@@ -165,6 +180,7 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 - Slack の目的のワークスペースを開き、既存の会話を読める。
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
+- `codex` が Homebrew の `bin` を指し、Codex CLI を起動して ChatGPT アカウントでログインできる。
 - Dropbox にログインし、必要なフォルダの同期状態を確認できる。インストール完了とデータの同期完了は分けて確認する。
 - Google 日本語入力で入力でき、Ctrl+J / Ctrl+K の変換と必要なユーザー辞書を使える。
 - Ghostty が zsh で起動し、手動の `fish`、フォント、日本語表示、Cmd+T が使える。
@@ -179,6 +195,9 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 依存を更新する場合だけ `make update` を実行する。これは lock を更新し build を確認するが、自動では適用しない。
 build に失敗した場合も lock の差分が残り得るので、確認してから採用・修正する。
 適用後は `make doctor` と上の実操作を確認し、lock と構成を一緒にコミットする。
+
+Codex CLI の更新は、必要なときに `brew upgrade --cask codex` を明示的に実行し、`codex --version` と起動を確認する。
+`make update` は Nix の依存だけを更新する。Homebrew 管理の Codex CLI の版は `flake.lock` には固定されない。
 
 以前の Home Manager 世代は `home-manager generations` で確認し、戻す世代の `activate` を実行する。
 これは Home Manager の管理する設定・パッケージの復旧であり、GUI アプリやデータ・認証を巻き戻すものではない。
@@ -204,3 +223,4 @@ Neovim のプラグイン lock など、アプリが書き換えるファイル�
 - [Google 日本語入力の cask](https://formulae.brew.sh/cask/google-japanese-ime)
 - [Google 日本語入力のキー設定](https://support.google.com/ime/japanese/answer/166764?hl=ja)
 - [macOS の入力ソース設定](https://support.apple.com/ja-jp/guide/mac-help/mchlp1406/mac)
+- [OpenAI 公式の Codex CLI 導入・更新手順](https://learn.chatgpt.com/docs/codex/cli)

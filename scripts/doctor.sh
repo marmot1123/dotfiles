@@ -4,7 +4,7 @@ set -eu
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 missing=0
 printf '%s\n' 'Command resolution in this shell:'
-for tool in nix home-manager brew git git-lfs gh fish fzf fd rg; do
+for tool in nix home-manager brew git git-lfs gh fish fzf fd rg codex; do
     resolved=$(command -v "$tool" || true)
     if [ -n "$resolved" ]; then
         printf '  %-14s %s\n' "$tool" "$resolved"
@@ -49,5 +49,6 @@ if ! /bin/bash "$repo_root/scripts/preflight-home.sh" "$HOME"; then
 fi
 printf '\n%s\n' 'Manually verify Bizin Gothic, 1Password/Chrome/Slack/ChatGPT/Dropbox sign-in, Dropbox sync, GitHub SSH authentication, and English UI.'
 printf '%s\n' 'Manually verify Google Japanese Input activation, user dictionary migration, and Ctrl+J / Ctrl+K conversion.'
+printf '%s\n' 'Manually verify that codex resolves to Homebrew and that Codex CLI sign-in works.'
 printf '%s\n' 'Run this in the new Mac terminal: paths in an agent process may differ from your interactive shell.'
 if [ "$missing" -ne 0 ]; then exit 1; fi
