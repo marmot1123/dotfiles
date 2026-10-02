@@ -10,8 +10,9 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Codex CLI |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Codex CLI |
 | Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
+| Mac App Store から手動導入 | LINE |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
 
 `flake.nix` は nixpkgs の `nixos-26.05` と Home Manager の `release-26.05` を入力にする。
@@ -137,6 +138,11 @@ make apps
 旧 `Brewfile` を指定した `brew bundle` は実行しない。
 すでに公式配布などでアプリを入れた場合は、その管理元を確認してから進め、強制的に置き換えない。
 
+Discord と Zoom はそれぞれ `discord`・`zoom` cask で導入する。
+LINE は Homebrew の公式 cask 一覧で確認できなかったため、Brewfile の導入対象には含めない（2026-10-02 確認）。
+[LINE 公式の Mac 向け手順](https://guide.line.me/ja/signup/pc-line.html)に従い、[Mac App Store の LINE](https://apps.apple.com/jp/app/line/id539883307?mt=12)から本人が導入する。
+各アプリへのログインと端末認証は手動で行う。マイク・カメラ・画面共有の権限は必要になったときに本人が許可し、音声・映像を確認する。
+
 Office は `microsoft-word`・`microsoft-excel`・`microsoft-powerpoint`・`microsoft-outlook` の4つを個別に導入する。
 個別版と競合する一括版 `microsoft-office` / `microsoft-office-businesspro` は使わない。OneDrive は導入せず、OneNote も今回は対象外とする。
 初回起動時に Office の利用権がある Microsoft アカウントまたは大学・職場アカウントでサインインし、ライセンス認証を確認する。
@@ -185,6 +191,8 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 
 - Chrome で必要なサイトを開ける。
 - Slack の目的のワークスペースを開き、既存の会話を読める。
+- Discord・LINE にログインし、必要なサーバーや既存の会話を開ける。
+- Zoom を起動し、利用するアカウントと音声・映像の設定を確認できる。
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
 - Word・Excel・PowerPoint のライセンス認証が済み、選んだ保存先でファイルを作成・保存・再読込できる。
@@ -225,6 +233,8 @@ Neovim のプラグイン lock など、アプリが書き換えるファイル�
 - [Homebrew Bundle と更新を抑えるオプション](https://docs.brew.sh/Brew-Bundle-and-Brewfile)
 - [Chrome の cask](https://formulae.brew.sh/cask/google-chrome)
 - [Slack の cask](https://formulae.brew.sh/cask/slack)
+- [Discord の cask](https://formulae.brew.sh/cask/discord)
+- [Zoom の cask](https://formulae.brew.sh/cask/zoom)
 - [Ghostty の cask](https://formulae.brew.sh/cask/ghostty)
 - [1Password の cask](https://formulae.brew.sh/cask/1password)
 - [ChatGPT の cask](https://formulae.brew.sh/cask/chatgpt)

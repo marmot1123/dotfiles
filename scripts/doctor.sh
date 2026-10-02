@@ -14,7 +14,7 @@ for tool in nix home-manager brew git git-lfs gh fish fzf fd rg codex; do
     fi
 done
 printf '\n%s\n' 'Applications:'
-for app in 1Password 'Google Chrome' Slack Ghostty ChatGPT Dropbox \
+for app in 1Password 'Google Chrome' Slack Discord LINE zoom.us Ghostty ChatGPT Dropbox \
     'Microsoft Word' 'Microsoft Excel' 'Microsoft PowerPoint' 'Microsoft Outlook'; do
     if [ -d "/Applications/$app.app" ] || [ -d "$HOME/Applications/$app.app" ]; then
         printf '  %s: present (launch and sign-in are not checked)\n' "$app"
@@ -52,5 +52,6 @@ printf '\n%s\n' 'Manually verify Bizin Gothic, 1Password/Chrome/Slack/ChatGPT/Dr
 printf '%s\n' 'Manually verify Google Japanese Input activation, user dictionary migration, and Ctrl+J / Ctrl+K conversion.'
 printf '%s\n' 'Manually verify that codex resolves to Homebrew and that Codex CLI sign-in works.'
 printf '%s\n' 'Manually verify Office activation, Word/Excel/PowerPoint document editing, and Outlook account setup.'
+printf '%s\n' 'Install LINE manually from the Mac App Store; verify Discord/LINE/Zoom sign-in and required audio/video/screen-sharing permissions.'
 printf '%s\n' 'Run this in the new Mac terminal: paths in an agent process may differ from your interactive shell.'
 if [ "$missing" -ne 0 ]; then exit 1; fi

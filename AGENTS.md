@@ -96,6 +96,7 @@ Makefile
 当面の bootstrap は手動手順の案内のみ。初回の lock 生成は `init-lock`、Homebrew 管理対象の導入は `apps` として、通常の `apply` から分離する。
 最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
 追加の基本アプリとして Word・Excel・PowerPoint・Outlook を含める。
+連絡用の Discord・Zoom は cask、LINE は Mac App Store からの手動導入で管理する。
 
 配置処理は冪等にし、既存ファイルとの衝突時には停止して対象を示す。バックアップは元のパスと復元方法を記録し、再実行で上書きしない。通常適用で自動削除やGCを行わず、移行が安定するまで旧世代を残す。
 

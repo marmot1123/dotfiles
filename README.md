@@ -23,6 +23,7 @@ Nix / standalone Home Manager の最小構成と、検証・適用を分ける�
 2. **設定の配置と管理元**: Nix / Home Manager で共通 CLI と設定を管理し、生成した lock を build で検証して適用する。
 3. **連絡と基本操作**: `Brewfile.macos` で 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI を導入し、フォント、日本語入力、ログイン、同期、GitHub 認証を確認する。
    Office は Word・Excel・PowerPoint・Outlook を個別の cask で導入し、ライセンス認証とメールアカウント設定を手動で行う。
+   Discord・Zoom も同じ Brewfile で導入する。LINE は Mac App Store から手動で導入する。
 4. **開発と研究環境**: Neovim・Python・TeX・その他の GUI アプリ・LumenCite のデータと認証を必要な順で移す。
 
 シェル・Ghostty・Git/SSH・エディタの基本設定は、このリポジトリで整備中。

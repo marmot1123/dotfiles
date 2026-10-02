@@ -2,6 +2,9 @@
 cask "1password"
 cask "google-chrome"
 cask "slack"
+cask "discord"
+cask "zoom"
+# LINE は Mac App Store から手動導入する（docs/macos-setup.md）。
 cask "ghostty"
 cask "chatgpt"
 cask "dropbox"
