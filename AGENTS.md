@@ -52,6 +52,7 @@
 
 同じ役割のツールをNixとHomebrewで重複管理しない。ただしOS標準ツールやcaskの依存formulaを機械的に削除しない。実際に解決されるコマンドとPATHを確認する。
 Codex CLI は単独で更新しやすいよう、Homebrew cask `codex` で管理する例外とする。新 Mac では Nix・npm・standalone installer と重複導入しない。
+Office は Word・Excel・PowerPoint・Outlook を個別の cask で管理する。一括版 `microsoft-office` / `microsoft-office-businesspro` は追加せず、OneDrive は導入しない。OneNote も現時点では対象外。
 
 Home Managerを後からnix-darwinへ統合する場合は、standaloneと同じ設定を二重にactivateしない。Brewfileとnix-darwinでもcask一覧を二重管理しない。
 
@@ -94,6 +95,7 @@ Makefile
 
 当面の bootstrap は手動手順の案内のみ。初回の lock 生成は `init-lock`、Homebrew 管理対象の導入は `apps` として、通常の `apply` から分離する。
 最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
+追加の基本アプリとして Word・Excel・PowerPoint・Outlook を含める。
 
 配置処理は冪等にし、既存ファイルとの衝突時には停止して対象を示す。バックアップは元のパスと復元方法を記録し、再実行で上書きしない。通常適用で自動削除やGCを行わず、移行が安定するまで旧世代を残す。
 

@@ -6,5 +6,10 @@ cask "ghostty"
 cask "chatgpt"
 cask "dropbox"
 cask "google-japanese-ime"
+# Office は必要な4アプリを個別管理する。OneDrive・OneNote は導入対象外。
+cask "microsoft-word"
+cask "microsoft-excel"
+cask "microsoft-powerpoint"
+cask "microsoft-outlook"
 # Codex CLI は単独で更新できるよう、Homebrew 管理の例外とする。
 cask "codex"

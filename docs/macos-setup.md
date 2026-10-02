@@ -11,6 +11,7 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
 | Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Codex CLI |
+| Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
 
 `flake.nix` は nixpkgs の `nixos-26.05` と Home Manager の `release-26.05` を入力にする。
@@ -28,7 +29,7 @@ lock がない状態では `make apply` は停止する。シェルスクリプ�
 1. macOS の案内に従い、ネットワーク・アカウント・Apple Account を設定する。システム言語は English。
 2. 自分の短いアカウント名を確認する。設定とデータは必要なものから移すため、今回は移行アシスタントで旧環境を一括コピーすることを前提にしない。
 3. Apple の Terminal を開き、`id -un` と `echo "$SHELL"` を確認する。ログインシェルは `/bin/zsh` のままにする。
-4. 1Password・GitHub・Slack・Google・ChatGPT・Dropbox のログインと二要素認証に使う手段を手元に用意する。パスワードやコードを dotfiles に保存しない。
+4. 1Password・GitHub・Slack・Google・ChatGPT・Dropbox・Microsoft のログインと二要素認証に使う手段を手元に用意する。Office の利用権があるアカウントも確認する。パスワードやコードを dotfiles に保存しない。
 
 以下のコマンドは zsh で実行する。
 
@@ -136,6 +137,12 @@ make apps
 旧 `Brewfile` を指定した `brew bundle` は実行しない。
 すでに公式配布などでアプリを入れた場合は、その管理元を確認してから進め、強制的に置き換えない。
 
+Office は `microsoft-word`・`microsoft-excel`・`microsoft-powerpoint`・`microsoft-outlook` の4つを個別に導入する。
+個別版と競合する一括版 `microsoft-office` / `microsoft-office-businesspro` は使わない。OneDrive は導入せず、OneNote も今回は対象外とする。
+初回起動時に Office の利用権がある Microsoft アカウントまたは大学・職場アカウントでサインインし、ライセンス認証を確認する。
+Word・Excel・PowerPoint では新規ファイルの作成・保存・再読込を確認する。OneDrive 同期アプリは不要で、保存先にはローカルフォルダや既存の Dropbox フォルダを選べる。
+Outlook のメールアカウント追加と認証は本人が行う。Outlook 導入だけで macOS の既定のメール・カレンダーアプリは変更しない。
+
 Codex CLI の導入後は、新しいターミナルで次を確認する。
 
 ```zsh
@@ -180,6 +187,8 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 - Slack の目的のワークスペースを開き、既存の会話を読める。
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
+- Word・Excel・PowerPoint のライセンス認証が済み、選んだ保存先でファイルを作成・保存・再読込できる。
+- Outlook を起動し、必要なメールアカウントを追加して既存メールを読める。
 - `codex` が Homebrew の `bin` を指し、Codex CLI を起動して ChatGPT アカウントでログインできる。
 - Dropbox にログインし、必要なフォルダの同期状態を確認できる。インストール完了とデータの同期完了は分けて確認する。
 - Google 日本語入力で入力でき、Ctrl+J / Ctrl+K の変換と必要なユーザー辞書を使える。
@@ -224,3 +233,8 @@ Neovim のプラグイン lock など、アプリが書き換えるファイル�
 - [Google 日本語入力のキー設定](https://support.google.com/ime/japanese/answer/166764?hl=ja)
 - [macOS の入力ソース設定](https://support.apple.com/ja-jp/guide/mac-help/mchlp1406/mac)
 - [OpenAI 公式の Codex CLI 導入・更新手順](https://learn.chatgpt.com/docs/codex/cli)
+- [Word の cask](https://formulae.brew.sh/cask/microsoft-word)
+- [Excel の cask](https://formulae.brew.sh/cask/microsoft-excel)
+- [PowerPoint の cask](https://formulae.brew.sh/cask/microsoft-powerpoint)
+- [Outlook の cask](https://formulae.brew.sh/cask/microsoft-outlook)
+- [Office for Mac のライセンス認証](https://support.microsoft.com/ja-jp/microsoft-365-activation-licensing/office-install/activate-office-for-mac)
