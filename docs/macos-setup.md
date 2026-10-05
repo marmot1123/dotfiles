@@ -10,7 +10,7 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Codex CLI |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Codex CLI |
 | Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
 | Mac App Store から手動導入 | LINE |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
@@ -169,6 +169,18 @@ Google 日本語入力は `google-japanese-ime` cask が公式のパッケージ
 ユーザー辞書も辞書ツールから書き出して新 Mac に取り込み、よく使う語を確認する。
 辞書・学習履歴は個人データとして別途保管し、公開 Git や Nix store に追加しない。
 
+Karabiner-Elements は `karabiner-elements` cask で導入する。既に公式配布版などがある場合は、そのまま利用し、管理元の移行を決めるまで再インストールや強制的な上書きをしない。
+初回起動後は[公式の導入手順](https://karabiner-elements.pqrs.org/docs/getting-started/installation/)とアプリの案内に従い、バックグラウンドサービス、アクセシビリティ、ドライバ拡張を本人が許可する。入力監視の許可も求められた場合は確認する。
+Virtual Keyboard の配列は実際のキーボードに合わせる。旧 Mac の JIS / ANSI 設定を無条件にコピーせず、記号キーも確認する。
+
+Karabiner の設定は `~/.config/karabiner/karabiner.json` にあり、JSON のまま Git 管理できる。
+今回用意したのはアプリの導入設定と管理方法の調査結果で、既存のキー割り当て・設定ファイルは移行・変更していない。
+今後 Git 管理する場合は、`config/karabiner/` に `karabiner.json` と必要な `assets/complex_modifications/` のルールを選別して保存し、書き込み可能なディレクトリとして `~/.config/karabiner` からリンクする方法を基本案とする。
+[公式の注意事項](https://karabiner-elements.pqrs.org/docs/manual/misc/configuration-file-path/)では、JSON ファイル単体への symlink は変更の検知・再読込ができないため、ディレクトリ全体への symlink が必要とされている。リンク先を変更した後は、同ページの手順でユーザーサービスを再起動する。
+GUI での設定保存も考慮し、通常の Home Manager の `source` で Nix store の読み取り専用ファイルへリンクする方式は使わない。
+移行時は既存ディレクトリの実体・リンク先を確認し、元のパスと復元方法を記録したバックアップを取ってから配置する。`automatic_backups/` は Git 管理から除外し、GUI 操作後の差分を確認してコミットする。
+コピーによる移行も[公式に対応](https://karabiner-elements.pqrs.org/docs/manual/operation/export/)している。自動配置を実装するまでは、必要になった時点で既存設定をバックアップしてから本人が取り込む。
+
 Bizin Gothic は [公式 Releases](https://github.com/yuru7/bizin-gothic/releases) から通常版を取得し、Font Book でインストールする。
 Ghostty が指定するファミリー名は `Bizin Gothic`。配色・ブロックカーソル・16pt・行高40%追加・リガチャ無効の既存設定を使う。
 
@@ -200,6 +212,7 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 - `codex` が Homebrew の `bin` を指し、Codex CLI を起動して ChatGPT アカウントでログインできる。
 - Dropbox にログインし、必要なフォルダの同期状態を確認できる。インストール完了とデータの同期完了は分けて確認する。
 - Google 日本語入力で入力でき、Ctrl+J / Ctrl+K の変換と必要なユーザー辞書を使える。
+- Karabiner-Elements の権限とドライバが有効になり、実際のキーボード配列と採用したキー割り当てが正しく動く。
 - Ghostty が zsh で起動し、手動の `fish`、フォント、日本語表示、Cmd+T が使える。
 - `ssh -T git@github.com` で自分のアカウントの認証成功を確認できる。
 - [git-ssh.md](git-ssh.md)の gh ログイン手順を完了し、`gh auth status` を確認できる。
@@ -240,6 +253,7 @@ Neovim のプラグイン lock など、アプリが書き換えるファイル�
 - [ChatGPT の cask](https://formulae.brew.sh/cask/chatgpt)
 - [Dropbox の cask](https://formulae.brew.sh/cask/dropbox)
 - [Google 日本語入力の cask](https://formulae.brew.sh/cask/google-japanese-ime)
+- [Karabiner-Elements の cask](https://formulae.brew.sh/cask/karabiner-elements)
 - [Google 日本語入力のキー設定](https://support.google.com/ime/japanese/answer/166764?hl=ja)
 - [macOS の入力ソース設定](https://support.apple.com/ja-jp/guide/mac-help/mchlp1406/mac)
 - [OpenAI 公式の Codex CLI 導入・更新手順](https://learn.chatgpt.com/docs/codex/cli)

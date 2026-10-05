@@ -11,6 +11,15 @@
 - 小さな変更単位で整理し、既存の操作上の好みと研究の継続性を保つ。
 - この方針だけを根拠に、依頼範囲外の移行やソフトのインストールを一括実行しない。
 
+## 現在の状態（2026-10-05）
+
+ユーザーの指示により、本会話で作業対象としたPCでの環境構築は、ここまでの内容で完了とする。以後は通常運用と、個別に依頼された変更・不具合対応を行う。
+
+- 計画書や本ファイル、`docs/` に残る将来案・未検証項目を、自動的に着手する作業一覧として扱わない。
+- 別のPCへの適用、研究環境の追加移行、Karabiner 設定の Git 管理などは、必要になった時点の依頼に応じて進める。
+- この完了の判断は、記録のないインストール・認証・同期・Nix の実適用・研究環境の検証が済んだことを意味しない。実施済みの記録と未検証事項を区別し、未検証事項を理由に今回の環境構築を再開しない。
+- 作業の完了とコミット・プッシュの状態は別に扱う。未コミット変更はその時点の `git status` と差分で確認する。
+
 ## 作業前の確認と既存状態の保護
 
 - 最初に `git status --short` と対象ファイルの差分を確認する。ユーザーの未コミット変更を上書き・巻き戻ししない。
@@ -26,7 +35,8 @@
 現在は引数なしの `make` / `make all` がヘルプ、`make list` が追跡ファイルの一覧を表示するだけ。
 `install` / `deploy` / `clean` は変更せずにエラー終了する。`bootstrap` は手順を案内するだけ。
 `init-lock` / `check` / `build` / `apply` / `update` は `scripts/home.sh`、`apps` は GUI・IME・Codex CLI の最小一覧 `Brewfile.macos` を使う。
-`doctor` は読み取り専用の確認。旧 Mac には Nix がないため、flake.lock の生成・Nix の評価と build・Home Manager の実適用は未検証。
+`doctor` は読み取り専用の確認。初期構成を準備した旧 Mac では Nix の評価と build・Home Manager の実適用は未検証だった。
+`flake.lock` はその後ユーザーが新 Mac で生成し、Git に追加済み。lock の存在だけで Nix の評価・build・実適用まで検証済みとは扱わない。
 実行ラッパーの停止条件等は仮のコマンドで検証するが、Nix 本体の検証済みとは扱わない。
 
 旧版には次の問題があったため、そのまま復活させない。
@@ -58,10 +68,10 @@ Home Managerを後からnix-darwinへ統合する場合は、standaloneと同じ
 
 ## 構成と実装方針
 
-現在の主な設定は、ルートの `.zshrc`、`.bash_profile`、`.vimrc`、`.tmux.conf`、`.latexmkrc` と、`config/git/`、`config/nvim/`、`config/fish/` にある。READMEはまだ最小限で、共通のテスト基盤はない。
+現在の主な設定は、ルートの `.zshrc`、`.bash_profile`、`.vimrc`、`.tmux.conf`、`.latexmkrc` と、`config/git/`、`config/nvim/`、`config/fish/` にある。構成と手順は README と `docs/`、操作スクリプトの検証は `tests/test_setup.py` にある。仮のコマンドによる検証と実機検証を区別する。
 
 現在 `flake.nix`、`home/default.nix`、`home/macos.nix`、操作別の `scripts/`、`docs/macos-setup.md` に最小構成を用意している。
-`flake.lock` は Nix がある環境で実際に生成・検証する。以下は最終形の候補であり、すべて実装済みという意味ではない:
+追跡済みの `flake.lock` を利用し、依存の更新は明示的に依頼されたときに Nix がある環境で行う。以下は将来の構成候補も含み、すべて実装済みという意味ではない:
 
 ```text
 flake.nix / flake.lock
@@ -94,9 +104,10 @@ Makefile
 - `bootstrap`: 既存のNix/Homebrewと前提条件を検出し、再インストールを避ける。SSH鍵なしでもHTTPSから開始できるようにする。
 
 当面の bootstrap は手動手順の案内のみ。初回の lock 生成は `init-lock`、Homebrew 管理対象の導入は `apps` として、通常の `apply` から分離する。
-最初の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI と共通 CLI・設定に絞り、Neovim・Python・TeX・研究データは次の段階で移す。
+初期の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI と共通 CLI・設定を対象とした。Neovim・Python・TeX・研究データの追加移行は、今後必要になった場合の個別作業とする。
 追加の基本アプリとして Word・Excel・PowerPoint・Outlook を含める。
 連絡用の Discord・Zoom は cask、LINE は Mac App Store からの手動導入で管理する。
+Karabiner-Elements は cask で導入する。設定の Git 管理は可能だが、現時点では移行・自動配置しない。設定をリンクして管理する場合は書き込み可能なディレクトリ全体を対象とし、`karabiner.json` 単体や Nix store 内の読み取り専用ファイルへリンクしない。権限付与・配列確認は手動で行う。
 
 配置処理は冪等にし、既存ファイルとの衝突時には停止して対象を示す。バックアップは元のパスと復元方法を記録し、再実行で上書きしない。通常適用で自動削除やGCを行わず、移行が安定するまで旧世代を残す。
 
@@ -113,15 +124,17 @@ Makefile
 - **TeX**: 現行のpLaTeX + dvipdfmxによる文書をまず再現する。移行とエンジン変更を同時に行わない。フォントと個人のtexmfも棚卸しし、エンジン指定は可能な限りプロジェクト側へ置く。
 - **LumenCite**: 本体の配布・開発環境と、DB・添付PDF・MCP接続・キーチェーン等の移行を分ける。アプリが起動するだけで移行完了としない。
 
-## 進め方と検証
+## 今後の移行・追加変更の進め方と検証
+
+以下は、今後移行や追加変更を依頼された場合の手順と確認項目であり、このPCで完了とした環境構築を継続する指示ではない。依頼範囲に関係する項目を選んで実施する。
 
 1. 旧Macの実態を読み取り中心で棚卸しし、データのバックアップを別途確保する。計画書にある `inventory-mac.sh` は存在と内容を確認してから使い、実行結果を自動コミットしない。
-2. 危険なMakefileの動作を置き換え、小さなHome Manager構成でGit・シェル・Neovim・tmuxを検証する。
+2. 既存の Makefile と操作スクリプトの契約を保ち、依頼対象の CLI・設定を小さな変更単位で検証する。
 3. 言語環境、TeX、GUIアプリ、データ・認証を段階的に移す。実装した手順と手動工程をREADMEや `docs/` に反映する。
 4. 移行先で代表的な実作業ができることを確認するまで、旧Macのデータ・必要な環境を保持する。
 
 検証は変更範囲に合わせて選ぶ。シェルは対象インタープリターで構文検査し、macOS標準の `/bin/bash` を使うならBash 3.2互換性を保つ。配置処理は一時ディレクトリで衝突・バックアップ・再実行を確認する。Nix導入後はcheck/buildを行い、実環境への適用と区別する。tmuxやNeovimの起動確認で既存セッションを操作しない。
 
-移行の完了条件は、ターミナル初期化、意図したコマンドの解決、Git認証とLFS、エディタ・tmux起動、日本語文書・英語論文のビルド、代表的なPython計算、LumenCiteの必要なビルド・データ・MCP連携、およびbootstrap/apply再実行の安全性。関係する項目を実機で確認する。
+今後の移行での実機確認項目は、ターミナル初期化、意図したコマンドの解決、Git認証とLFS、エディタ・tmux起動、日本語文書・英語論文のビルド、代表的なPython計算、LumenCiteの必要なビルド・データ・MCP連携、およびbootstrap/apply再実行の安全性。完了条件はその移行の依頼範囲に合わせ、関係する項目を実機で確認する。
 
 作業報告では変更内容、実行した検証、未検証事項と残る手動工程を明確にする。構文検査・CI・モックの成功を、macOS実機、GUI、権限、同期、研究結果の検証済みと読み替えない。

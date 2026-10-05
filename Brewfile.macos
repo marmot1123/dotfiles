@@ -9,6 +9,7 @@ cask "ghostty"
 cask "chatgpt"
 cask "dropbox"
 cask "google-japanese-ime"
+cask "karabiner-elements"
 # Office は必要な4アプリを個別管理する。OneDrive・OneNote は導入対象外。
 cask "microsoft-word"
 cask "microsoft-excel"
