@@ -4,7 +4,7 @@ cask "google-chrome"
 cask "slack"
 cask "discord"
 cask "zoom"
-# LINE は Mac App Store から手動導入する（docs/macos-setup.md）。
+# LINE・「辞書 by 物書堂」は Mac App Store から手動導入する（docs/macos-setup.md）。
 cask "ghostty"
 cask "chatgpt"
 cask "dropbox"

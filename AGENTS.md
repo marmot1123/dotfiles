@@ -107,6 +107,7 @@ Makefile
 初期の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI と共通 CLI・設定を対象とした。Neovim・Python・TeX・研究データの追加移行は、今後必要になった場合の個別作業とする。
 追加の基本アプリとして Word・Excel・PowerPoint・Outlook を含める。
 連絡用の Discord・Zoom は cask、LINE は Mac App Store からの手動導入で管理する。
+「辞書 by 物書堂」も Mac App Store から手動導入し、辞書コンテンツのダウンロード・検索確認は本人が行う。
 Karabiner-Elements は cask で導入する。設定の Git 管理は可能だが、現時点では移行・自動配置しない。設定をリンクして管理する場合は書き込み可能なディレクトリ全体を対象とし、`karabiner.json` 単体や Nix store 内の読み取り専用ファイルへリンクしない。権限付与・配列確認は手動で行う。
 
 配置処理は冪等にし、既存ファイルとの衝突時には停止して対象を示す。バックアップは元のパスと復元方法を記録し、再実行で上書きしない。通常適用で自動削除やGCを行わず、移行が安定するまで旧世代を残す。

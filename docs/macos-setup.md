@@ -12,7 +12,7 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
 | Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Codex CLI |
 | Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
-| Mac App Store から手動導入 | LINE |
+| Mac App Store から手動導入 | LINE、辞書 by 物書堂 |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
 
 `flake.nix` は nixpkgs の `nixos-26.05` と Home Manager の `release-26.05` を入力にする。
@@ -143,6 +143,10 @@ LINE は Homebrew の公式 cask 一覧で確認できなかったため、Brewf
 [LINE 公式の Mac 向け手順](https://guide.line.me/ja/signup/pc-line.html)に従い、[Mac App Store の LINE](https://apps.apple.com/jp/app/line/id539883307?mt=12)から本人が導入する。
 各アプリへのログインと端末認証は手動で行う。マイク・カメラ・画面共有の権限は必要になったときに本人が許可し、音声・映像を確認する。
 
+「辞書 by 物書堂」も [Homebrew の公式 cask 一覧](https://formulae.brew.sh/cask/)に登録がなく、[物書堂の製品案内](https://www.monokakido.jp/ja/dictionaries/app/index.html)では App Store からの配信を案内している（2026-10-06 確認）。
+[Mac App Store の「辞書 by 物書堂」](https://apps.apple.com/jp/app/id1380563956?platform=mac)から本人が導入する。アプリ本体は無料で、辞書コンテンツはアプリ内購入となる。
+必要な辞書コンテンツのダウンロードと検索確認は手動で行う。アプリ本体の導入だけで辞書を利用できる状態になったとは扱わない。
+
 Office は `microsoft-word`・`microsoft-excel`・`microsoft-powerpoint`・`microsoft-outlook` の4つを個別に導入する。
 個別版と競合する一括版 `microsoft-office` / `microsoft-office-businesspro` は使わない。OneDrive は導入せず、OneNote も今回は対象外とする。
 初回起動時に Office の利用権がある Microsoft アカウントまたは大学・職場アカウントでサインインし、ライセンス認証を確認する。
@@ -205,6 +209,7 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 - Slack の目的のワークスペースを開き、既存の会話を読める。
 - Discord・LINE にログインし、必要なサーバーや既存の会話を開ける。
 - Zoom を起動し、利用するアカウントと音声・映像の設定を確認できる。
+- 「辞書 by 物書堂」を起動し、必要な辞書コンテンツをダウンロードして語句を検索できる。
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
 - Word・Excel・PowerPoint のライセンス認証が済み、選んだ保存先でファイルを作成・保存・再読込できる。
