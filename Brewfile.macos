@@ -21,5 +21,6 @@ cask "microsoft-word"
 cask "microsoft-excel"
 cask "microsoft-powerpoint"
 cask "microsoft-outlook"
+cask "steam"
 # Codex CLI は単独で更新できるよう、Homebrew 管理の例外とする。
 cask "codex"
