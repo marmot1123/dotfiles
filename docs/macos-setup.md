@@ -12,6 +12,7 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
 | Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Markdown Preview、Obsidian、Codex CLI |
 | Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
+| Homebrew の `adobe-creative-cloud`（同じ `Brewfile.macos`） | Creative Cloud デスクトップアプリの初回導入。各 Adobe アプリの導入・更新は Creative Cloud 側で行う |
 | Mac App Store から手動導入 | LINE、辞書 by 物書堂 |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
 
@@ -184,6 +185,13 @@ Markdown Preview は [公式 cask `markdown-preview`](https://formulae.brew.sh/c
 [公式 README](https://github.com/pluk-inc/markdown-preview)では、内蔵 KaTeX による `$…$`・`$$…$$` の数式表示、簡単な編集、Finder の Quick Look に対応している。
 導入後に普段の Markdown ファイルを開き、日本語本文・インライン数式・独立した数式が表示されることを確認する。
 今回追加したのは導入設定と手順で、アプリのインストール・実機での表示確認は未実施。
+
+Adobe Creative Cloud の初回導入は [Homebrew の公式 cask `adobe-creative-cloud`](https://formulae.brew.sh/cask/adobe-creative-cloud) を使う（2026-10-10 確認）。
+`make apps` は Creative Cloud を含む `Brewfile.macos` 全体の不足分を導入する。
+導入後は本人が Adobe アカウントでログインし、利用権を確認して、必要な Photoshop・Illustrator などを Creative Cloud から選択して導入する（[Adobe 公式手順](https://helpx.adobe.com/download-install/apps/download-install-apps/creative-cloud-apps/download-creative-cloud-apps.html)）。
+Creative Cloud 本体と各 Adobe アプリの更新は Adobe 側に任せ、各アプリのバージョンや設定を Brewfile / Nix で固定・復元するものとは扱わない。
+認証情報・アプリ内部DB・制作データは Git / Nix store に含めず、必要なデータは別途バックアップする。
+今回追加したのは導入設定と手順で、Creative Cloud のインストール・ログイン・各 Adobe アプリの起動確認は未実施。
 
 Discord と Zoom はそれぞれ `discord`・`zoom` cask で導入する。
 LINE は Homebrew の公式 cask 一覧で確認できなかったため、Brewfile の導入対象には含めない（2026-10-02 確認）。

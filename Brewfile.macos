@@ -14,6 +14,8 @@ cask "karabiner-elements"
 cask "markdown-preview"
 # Vault は iCloud に置き、home/macos.nix で入口のリンクを管理する。
 cask "obsidian"
+# Creative Cloud の初回導入のみ。各 Adobe アプリの導入・更新は Creative Cloud 側で行う。
+cask "adobe-creative-cloud"
 # Office は必要な4アプリを個別管理する。OneDrive・OneNote は導入対象外。
 cask "microsoft-word"
 cask "microsoft-excel"
