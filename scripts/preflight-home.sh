@@ -13,7 +13,7 @@ if [ -L "$target_home" ]; then
     exit 1
 fi
 
-for relative in .config .config/fish .config/fish/conf.d .config/fish/functions .config/git .config/ghostty .ssh; do
+for relative in .config .config/fish .config/fish/conf.d .config/fish/functions .config/git .config/ghostty .ssh Documents; do
     target="$target_home/$relative"
     if [ -L "$target" ] || { [ -e "$target" ] && [ ! -d "$target" ]; }; then
         printf 'REVIEW parent path before applying: %s\n' "$target" >&2

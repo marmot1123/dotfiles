@@ -10,7 +10,7 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Markdown Preview、Codex CLI |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Markdown Preview、Obsidian、Codex CLI |
 | Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
 | Mac App Store から手動導入 | LINE、辞書 by 物書堂 |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
@@ -113,11 +113,52 @@ Apple の zsh と Vim は引き続き利用できる。
 | `~/.ssh/config` | GitHub の接続設定。鍵は管理対象外 |
 | `~/.vimrc` | Apple Vim の最小設定 |
 | `~/.config/ghostty/config.ghostty` | zsh 起動、フォント、行間、タブ・ペイン操作 |
+| `~/Documents/obsidian_vault` | iCloud 上の既存 Vault へのリンク。実体の移動・コピーはしない |
 
-設定は Nix store からの読み取り専用リンクになる。編集はリポジトリ側で行い、`make check` と `make apply` で反映する。
+通常の設定は Nix store からの読み取り専用リンクになる。編集はリポジトリ側で行い、`make check` と `make apply` で反映する。
+Obsidian Vault は例外で、`mkOutOfStoreSymlink` による外部パスへのリンクにする。ノートの実体は iCloud 側にあり、書き込み可能なまま保つ。
 fish の履歴や `fish_variables` は Home Manager の配置対象にしない。
 SSH 鍵や gh の認証情報はリポジトリに置かず、Nix store にも入れない。
 既存シェル設定中の TeX・言語環境への任意 PATH はディレクトリが存在するときだけ有効になり、初回導入ではそれらのツールはインストールしない。
+
+### Obsidian と iCloud Vault
+
+Obsidian 本体は [公式 cask `obsidian`](https://formulae.brew.sh/cask/obsidian) を `Brewfile.macos` で管理する。
+本体の導入は `make apps` で行う。Obsidian を含む Brewfile 全体の不足分を導入し、既存アプリの upgrade は行わない。
+
+```zsh
+make apps
+make check
+make apply
+```
+
+リンクの設定は `home/macos.nix` にある。上記の `make apply` は、このリンクを含む Home Manager の設定全体を適用する。
+
+```text
+~/Documents/obsidian_vault
+  → ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/obsidian_vault
+```
+
+実際のリンクは Home Manager / Nix store 内のリンクを経由して、この外部パスに到達する。
+Vault の内容・添付ファイル・`.obsidian` は Git や Nix store に取り込まない。
+`~/Documents` はこの Mac からアクセスするための入口として使う。リンクは独立したコピーやバックアップではなく、リンク経由の編集・削除も同じ実体に反映される。
+「デスクトップと書類」の iCloud 同期を使う場合、端末固有のリンクを共有することになるため、同期対象外の場所を選び直す。
+
+同名のファイル・ディレクトリ・別のリンクが配置先にあれば、Home Manager の衝突確認で停止する。`force` は使わない。
+`~/Documents` 自体が symlink または通常ファイルの場合も事前確認で停止する。
+iCloud の Vault が未同期・未作成でも空の Vault は生成しない。その場合はリンク切れになるため、まず iCloud の状態を確認する。
+`make doctor` でアプリ・Vault ディレクトリの有無と、リンクが同じ実体に到達することを確認できる。ノートの内容・同期完了は検査しない。
+
+Obsidian では **Open folder as vault** から **iCloud Drive → Obsidian → obsidian_vault** の元フォルダを開く。
+`~/Documents` のリンクはターミナル等から使う入口とし、同じ Vault を別々に登録しない。
+[Obsidian の iCloud 手順](https://help.obsidian.md/sync-notes#iCloud)に従い、macOS 15 以降では Finder の iCloud Drive 内の Obsidian フォルダを **Keep Downloaded（ダウンロードを保持）** にする。
+iPhone / iPad と iCloud で同期する場合も、実体はアプリアイコン付きの `iCloud Drive/Obsidian/` の中に残す。
+Obsidian の起動、既存ノートの表示・編集、他端末への同期は本人が確認する。
+
+2026-10-10 の追加時には、既存 lock による `make check`（実際の Nix 評価・build）、生成物のリンク先確認、シェル・Brewfile の構文検査、操作スクリプトの10件のテストが成功した。
+Obsidian のインストールと Home Manager の実適用は未実施。
+同日の `doctor` では、既存の `~/Library/Application Support/com.mitchellh.ghostty/config.ghostty`（0 bytes）が重複設定として検出された。
+現状の `make apply` はそこで停止するため、適用前にそのファイルの扱いを確認する。今回そのファイルは変更していない。
 
 ## 5 GUI アプリ・日本語入力・Codex CLI・フォント
 
@@ -219,6 +260,7 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
 - Markdown Preview で日本語本文・インライン数式・独立した数式を表示できる。
+- Obsidian で iCloud 上の既存 Vault を開け、ダウンロード保持・ノートの編集・他端末への同期を確認できる。
 - Word・Excel・PowerPoint のライセンス認証が済み、選んだ保存先でファイルを作成・保存・再読込できる。
 - Outlook を起動し、必要なメールアカウントを追加して既存メールを読める。
 - `codex` が Homebrew の `bin` を指し、Codex CLI を起動して ChatGPT アカウントでログインできる。

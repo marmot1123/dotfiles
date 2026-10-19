@@ -124,10 +124,15 @@ with open(os.environ['SETUP_TEST_CALLS'], 'a') as log:
         original.mkdir()
         sentinel = original / 'keep.txt'
         sentinel.write_text('keep\n')
-        (target / '.config').symlink_to(original, target_is_directory=True)
-        self.assertNotEqual(self.run_script('preflight-home.sh', str(target)).returncode, 0)
-        self.assertEqual(sentinel.read_text(), 'keep\n')
-        (target / '.config').unlink()
+        for relative in ('.config', 'Documents'):
+            with self.subTest(parent=relative):
+                parent = target / relative
+                parent.symlink_to(original, target_is_directory=True)
+                result = self.run_script('preflight-home.sh', str(target))
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(str(parent), result.stderr)
+                self.assertEqual(sentinel.read_text(), 'keep\n')
+                parent.unlink()
         (target / '.gitconfig').write_text('existing config\n')
         self.assertNotEqual(self.run_script('preflight-home.sh', str(target)).returncode, 0)
         self.assertEqual((target / '.gitconfig').read_text(), 'existing config\n')

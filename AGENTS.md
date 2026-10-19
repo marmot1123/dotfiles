@@ -107,6 +107,7 @@ Makefile
 初期の新 Mac 構成は 1Password・Chrome・Slack・Ghostty・ChatGPT・Dropbox・Google 日本語入力・Codex CLI と共通 CLI・設定を対象とした。Neovim・Python・TeX・研究データの追加移行は、今後必要になった場合の個別作業とする。
 追加の基本アプリとして Word・Excel・PowerPoint・Outlook を含める。
 Markdown の閲覧と LaTeX 数式のプレビューには Markdown Preview を使い、`markdown-preview` cask で管理する（macOS 15 以降）。Obsidian は別用途で併用する。
+Obsidian は `obsidian` cask で管理する。Vault の実体は iCloud Drive の `Obsidian/obsidian_vault` に残し、Home Manager の `mkOutOfStoreSymlink` で `~/Documents/obsidian_vault` に入口を置く。Vault の内容・`.obsidian` は Git / Nix store に取り込まない。Obsidian では iCloud 側の元フォルダを開き、ダウンロード保持と同期確認は手動で行う。
 連絡用の Discord・Zoom は cask、LINE は Mac App Store からの手動導入で管理する。
 「辞書 by 物書堂」も Mac App Store から手動導入し、辞書コンテンツのダウンロード・検索確認は本人が行う。
 Karabiner-Elements は cask で導入する。設定の Git 管理は可能だが、現時点では移行・自動配置しない。設定をリンクして管理する場合は書き込み可能なディレクトリ全体を対象とし、`karabiner.json` 単体や Nix store 内の読み取り専用ファイルへリンクしない。権限付与・配列確認は手動で行う。

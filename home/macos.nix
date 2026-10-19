@@ -17,6 +17,10 @@
       fi
     '';
     ".ssh/config".source = ../config/ssh/config;
+    # Vault の実体は iCloud に残す。文字列の外部パスからリンクだけを生成し、
+    # ノート・添付ファイル・.obsidian を Nix store へ取り込まない。
+    "Documents/obsidian_vault".source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/Library/Mobile Documents/iCloud~md~obsidian/Documents/obsidian_vault";
   };
 
   xdg.configFile."ghostty/config.ghostty".source = ../config/ghostty/config.ghostty;

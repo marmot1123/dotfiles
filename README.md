@@ -26,6 +26,7 @@ Nix / standalone Home Manager の最小構成と、検証・適用を分ける�
    Discord・Zoom も同じ Brewfile で導入する。LINE・「辞書 by 物書堂」は Mac App Store から手動で導入する。
    Karabiner-Elements も cask で導入し、初回の権限付与とキーボード配列の選択は手動で行う。
    Markdown の閲覧と LaTeX 数式のプレビューには Markdown Preview を同じ Brewfile で導入する（macOS 15 以降）。
+   Obsidian も cask で導入する。Home Manager が `~/Documents/obsidian_vault` から既存の iCloud Vault へのリンクを配置する（[設定と確認手順](docs/macos-setup.md#obsidian-と-icloud-vault)）。
 4. **開発と研究環境**: Neovim・Python・TeX・その他の GUI アプリ・LumenCite のデータと認証を必要な順で移す。
 
 シェル・Ghostty・Git/SSH・エディタの基本設定は、このリポジトリで整備中。
