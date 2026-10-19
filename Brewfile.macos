@@ -10,6 +10,8 @@ cask "chatgpt"
 cask "dropbox"
 cask "google-japanese-ime"
 cask "karabiner-elements"
+# Markdown の閲覧・数式プレビュー（macOS 15 以降）。
+cask "markdown-preview"
 # Office は必要な4アプリを個別管理する。OneDrive・OneNote は導入対象外。
 cask "microsoft-word"
 cask "microsoft-excel"

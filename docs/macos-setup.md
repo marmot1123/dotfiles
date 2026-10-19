@@ -10,7 +10,7 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
 | Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Codex CLI |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Markdown Preview、Codex CLI |
 | Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
 | Mac App Store から手動導入 | LINE、辞書 by 物書堂 |
 | 公式配布から手動導入 | Bizin Gothic 通常版 |
@@ -138,6 +138,12 @@ make apps
 旧 `Brewfile` を指定した `brew bundle` は実行しない。
 すでに公式配布などでアプリを入れた場合は、その管理元を確認してから進め、強制的に置き換えない。
 
+Markdown Preview は [公式 cask `markdown-preview`](https://formulae.brew.sh/cask/markdown-preview) で導入する（macOS 15 以降、2026-10-06 確認）。
+日本語の Markdown 本文と LaTeX 数式の閲覧に使い、Obsidian は別用途で併用する。
+[公式 README](https://github.com/pluk-inc/markdown-preview)では、内蔵 KaTeX による `$…$`・`$$…$$` の数式表示、簡単な編集、Finder の Quick Look に対応している。
+導入後に普段の Markdown ファイルを開き、日本語本文・インライン数式・独立した数式が表示されることを確認する。
+今回追加したのは導入設定と手順で、アプリのインストール・実機での表示確認は未実施。
+
 Discord と Zoom はそれぞれ `discord`・`zoom` cask で導入する。
 LINE は Homebrew の公式 cask 一覧で確認できなかったため、Brewfile の導入対象には含めない（2026-10-02 確認）。
 [LINE 公式の Mac 向け手順](https://guide.line.me/ja/signup/pc-line.html)に従い、[Mac App Store の LINE](https://apps.apple.com/jp/app/line/id539883307?mt=12)から本人が導入する。
@@ -212,6 +218,7 @@ Google 日本語入力は `/Library/Input Methods/` または `~/Library/Input M
 - 「辞書 by 物書堂」を起動し、必要な辞書コンテンツをダウンロードして語句を検索できる。
 - 1Password で必要な保管庫を開ける。
 - ChatGPT アプリを開き、利用するアカウントでログインできる。
+- Markdown Preview で日本語本文・インライン数式・独立した数式を表示できる。
 - Word・Excel・PowerPoint のライセンス認証が済み、選んだ保存先でファイルを作成・保存・再読込できる。
 - Outlook を起動し、必要なメールアカウントを追加して既存メールを読める。
 - `codex` が Homebrew の `bin` を指し、Codex CLI を起動して ChatGPT アカウントでログインできる。
