@@ -24,4 +24,8 @@
   };
 
   xdg.configFile."ghostty/config.ghostty".source = ../config/ghostty/config.ghostty;
+  # ~/dotfiles に clone する。vim.pack が lock を更新できるよう、文字列の
+  # 外部パスを使い、設定ディレクトリを読み取り専用の Nix store に置かない。
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/nvim";
 }

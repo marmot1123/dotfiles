@@ -26,7 +26,7 @@
 - 本ファイル作成時には `.bash_profile` と `config/git/config` に既存の変更があった。以後もその時点の状態を確認する。
 - 計画書の記述は現状と照合する。例えば計画書のGit認証設定はWSL向けだったが、作成時のローカル設定は `osxkeychain` に変更されている。
 - 設定があることと、ツールがインストール済み・使用中であることを区別する。Brewfileだけから環境全体を推定しない。
-- `config/nvim/` には独立した `.git` ディレクトリも存在する。親リポジトリの追跡状態と併せて確認し、勝手に削除したりサブモジュール化したりしない。
+- 旧 Mac の `config/nvim/` には独立した `.git` ディレクトリも存在した（2026-11-14 の新 Mac にはない）。各環境で親リポジトリの追跡状態と併せて確認し、勝手に削除したりサブモジュール化したりしない。
 - 秘密鍵、APIキー、トークン、証明書、アプリDB、論文・添付ファイル、棚卸しレポートを公開Gitに追加しない。秘密情報をNix式や生成ファイルにも埋め込まない。
 
 ## 現行Makefileの扱い
@@ -121,6 +121,7 @@ Karabiner-Elements は cask で導入する。設定の Git 管理は可能だ�
 
 - **シェル**: PATHの重複とOS混在を整理し、任意の初期化ファイルは存在確認して読む。シェルごとに `ssh-agent` を増やさず、macOSの既存エージェントを基本にする。GNU向け `ls` エイリアスは解決先と整合させる。
 - **Vim / Neovim**: VimはApple標準のVimで使える、外部プラグインに依存しない最小構成にする。Neovimは主用途に合わせて段階的に拡張する。両方とも挿入モードの `jk` → Escを維持し、既定のインデントはスペース4個とする。ファイルタイプ・プロジェクト固有の指定を尊重する。構成と復旧方法は `docs/editors.md` に記録する。
+- **エディターの導入**: Zed・Visual Studio Code は `Brewfile.macos` の cask、本体の通常更新は各アプリ側。Neovim・Tree-sitter CLI は Nix / Home Manager。`~/.config/nvim` は `mkOutOfStoreSymlink` で `~/dotfiles/config/nvim` へリンクし、Lua・vim.pack の lock を書き込み可能に保つ。プラグインは既存の `vim.pack`、Python 編集支援は uv tool を使う。Lua・プラグイン lock の復旧は Git で行い、Home Manager のロールバックと区別する。
 - **Git**: 認証ヘルパーをOS別に扱う。参照される `.gitignore_global` の配置とGit LFSの依存を確認する。 GitHubのGit操作はSSH公開鍵認証を基本とし、新しいMacでは端末専用のパスフレーズ付きEd25519鍵を早期に新規作成する。鍵生成・公開鍵登録は本人の手動工程として `docs/git-ssh.md` に記録する。SSH設定は `config/ssh/config` で管理し、秘密鍵・ghの認証情報はGitに追加しない。
 - **tmux**: 旧式の色・属性指定を `*-style` 形式へ整理する際も、`C-k` プレフィックス、分割・移動キー等の好みを保つ。
 - **Rust / Node**: fnm・pnpm・rustup自体はNix / Home Managerで管理し、Node.jsはfnm、Rust toolchainはrustupで導入する。pnpmは`withNode = false`としてfnmのNode.jsを使う。HomebrewのRustやNixの独立したrustc/cargoと通常環境で重ねない（rustup付属のプロキシは使う）。toolchain・Node・pnpmの版とlockはプロジェクトで管理し、共同開発者にNixを必須化しない。復元・更新手順は`docs/development.md`を参照する。

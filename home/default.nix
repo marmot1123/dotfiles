@@ -13,6 +13,9 @@
     fzf
     fd
     ripgrep
+    # Lua 設定・vim.pack の lock は書き込み可能なリポジトリ側で管理する。
+    neovim
+    tree-sitter
     # 管理ツールだけを Nix で固定し、言語本体と依存はプロジェクト側で選ぶ。
     fnm
     # 実行時は fnm が選んだ Node.js を使う。

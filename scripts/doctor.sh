@@ -4,7 +4,7 @@ set -eu
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 missing=0
 printf '%s\n' 'Command resolution in this shell:'
-for tool in nix home-manager brew git git-lfs gh fish fzf fd rg codex fnm pnpm uv rustup; do
+for tool in nix home-manager brew git git-lfs gh fish fzf fd rg codex fnm pnpm uv rustup nvim tree-sitter zed code basedpyright-langserver ruff; do
     resolved=$(command -v "$tool" || true)
     if [ -n "$resolved" ]; then
         printf '  %-14s %s\n' "$tool" "$resolved"
@@ -15,7 +15,7 @@ for tool in nix home-manager brew git git-lfs gh fish fzf fd rg codex fnm pnpm u
 done
 printf '\n%s\n' 'Applications:'
 for app in 1Password 'Google Chrome' Slack Discord LINE zoom.us Ghostty ChatGPT Dropbox Karabiner-Elements \
-    'Markdown Preview' Obsidian 'Microsoft Word' 'Microsoft Excel' 'Microsoft PowerPoint' 'Microsoft Outlook'; do
+    'Markdown Preview' Obsidian Zed 'Visual Studio Code' 'Microsoft Word' 'Microsoft Excel' 'Microsoft PowerPoint' 'Microsoft Outlook'; do
     if [ -d "/Applications/$app.app" ] || [ -d "$HOME/Applications/$app.app" ]; then
         printf '  %s: present (launch and sign-in are not checked)\n' "$app"
     else
@@ -23,6 +23,14 @@ for app in 1Password 'Google Chrome' Slack Discord LINE zoom.us Ghostty ChatGPT 
         missing=$((missing + 1))
     fi
 done
+printf '\n%s\n' 'Neovim configuration (link and lock presence only):'
+if [ -L "$HOME/.config/nvim" ] && [ "$HOME/.config/nvim" -ef "$repo_root/config/nvim" ] && \
+    [ -r "$HOME/.config/nvim/init.lua" ] && [ -w "$HOME/.config/nvim/nvim-pack-lock.json" ]; then
+    printf '%s\n' '  Config link: resolves to dotfiles; plugin lock is writable.'
+else
+    printf '%s\n' '  Config link: MISSING, conflicting, or lock is not writable; see docs/editors.md.'
+    missing=$((missing + 1))
+fi
 printf '\n%s\n' 'Obsidian vault (directory/link presence only; contents and sync are not checked):'
 obsidian_vault="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/obsidian_vault"
 obsidian_link="$HOME/Documents/obsidian_vault"
@@ -71,5 +79,6 @@ printf '%s\n' 'Manually verify Japanese text and inline/display math rendering i
 printf '%s\n' 'Open the original iCloud vault in Obsidian; verify Keep Downloaded, note editing, and sync with other devices.'
 printf '%s\n' 'Install LINE manually from the Mac App Store; verify Discord/LINE/Zoom sign-in and required audio/video/screen-sharing permissions.'
 printf '%s\n' 'Manually verify Karabiner-Elements permissions, background services, driver extension, keyboard layout, and key mappings.'
+printf '%s\n' 'Verify editor UI, Japanese input, project toolchains, Neovim LSP/parsers, and any GUI extensions; see docs/editors.md.'
 printf '%s\n' 'Run this in the new Mac terminal: paths in an agent process may differ from your interactive shell.'
 if [ "$missing" -ne 0 ]; then exit 1; fi

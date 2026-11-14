@@ -1,14 +1,15 @@
-# Vim・Neovim
+# Zed・Visual Studio Code・Vim・Neovim
 
 ## 使い分け
 
 - Vim: 復旧時や短い編集に使う最小構成。Apple 標準の `/usr/bin/vim` で動き、外部プラグインに依存しない。
 - Neovim: 普段の編集用。用途に合わせて Lua 設定と必要な機能を段階的に追加する。
+- Zed・Visual Studio Code: GUI でのコード閲覧・編集、LaTeX など。拡張は用途が具体化してから選ぶ。
 
 Neovim の整備は次の優先順で進める。
 
-新 Mac の初回セットアップは [Chrome・Slack と共通 CLI](macos-setup.md)を優先する。
-その最小 Home Manager 構成は Vim の設定までを対象とし、以下の Neovim 環境は次の段階で移す。
+初回セットアップは Vim の設定までを対象としていた。
+2026-11-14 の個別追加から、Neovim と GUI エディターも以下の管理分担に含める。
 
 1. Python の読み書き
 2. Markdown・設定ファイルの編集
@@ -34,9 +35,53 @@ HTML/CSS 専用の編集支援は、次の段階で検討する。
 | `config/nvim/lsp/` | 同じ構造で配置 | Python の言語サーバー設定 |
 | `config/nvim/nvim-pack-lock.json` | 同じ構造で配置 | プラグインの検証済み revision |
 
-この Mac では `~/.vimrc` と `~/.config/nvim` はリポジトリへのリンクになっている。
-新しい Mac では配置先の実体・リンク先を確認し、既存設定があればバックアップしてから統合する。
-現行 Makefile による配置は行わない。
+`~/.vimrc` は Home Manager が Nix store の設定へリンクする。
+`~/.config/nvim` は `home/macos.nix` の `mkOutOfStoreSymlink` で
+`~/dotfiles/config/nvim` へリンクする。リポジトリは `~/dotfiles` に置く。
+別の場所へ clone する場合は、適用前にこの文字列パスも変更する。
+Lua と `nvim-pack-lock.json` は書き込み可能な Git 作業ツリーに残し、プラグイン更新を可能にする。
+設定の変更は即座に見えるため、Lua・プラグイン lock の復旧は Git で行う。
+Home Manager の世代を戻すだけでは外部リンク先の内容は戻らない。
+新しい Mac では配置先の実体・リンク先を確認し、既存設定があれば元の場所と復元方法を記録して保全する。
+`make apply` は Home Manager の衝突確認に従い、既存ファイルを強制上書きしない。
+
+## 本体の導入と更新
+
+| 対象 | 管理元 | 正本 |
+| --- | --- | --- |
+| Zed・Visual Studio Code | Homebrew cask | `Brewfile.macos` の `zed`・`visual-studio-code` |
+| Neovim・Tree-sitter CLI・Git・fzf・fd・ripgrep | Nix / Home Manager | `home/default.nix`・`flake.lock` |
+| Python の編集支援 | uv tool | 下記の版指定と確認手順 |
+| Neovim プラグイン | vim.pack | `config/nvim/nvim-pack-lock.json` |
+| Vim | Apple | `/usr/bin/vim` と Home Manager 配置の `.vimrc` |
+
+初回導入・新しい Mac への復元は、既存設定と重複インストールを確認してから行う。
+
+```sh
+make apps
+make check
+make build
+make apply
+```
+
+`make apps` は `--no-upgrade` で不足するアプリを導入する。
+旧 `Brewfile` の `neovim`・`tree-sitter-cli` は履歴用で、新 Mac の導入には使わない。
+Zed・VS Code の日常の更新は各アプリの自動更新に任せる。
+Homebrew の cask が `zed`・`code` コマンドも配置するので、アプリ内で別の CLI リンクを作らない。
+Nix 管理のパッケージの版更新は必要なときに `make update` の差分・build を確認してから適用する。
+通常の復元で `flake.lock` を更新しない。Nix の lock は GUI アプリや uv tool の版までは固定しない。
+
+GUI エディターの個人設定・拡張は、今回の初回導入では既定のままとする。
+設定を管理するときは Zed の `~/.config/zed/settings.json`・`keymap.json`、
+VS Code の `~/Library/Application Support/Code/User/settings.json`・`keybindings.json` などから
+必要な項目だけを選び、書き込み可能な配置にする。認証情報・アプリ DB・キャッシュを取り込まない。
+VS Code の追加拡張は `code --list-extensions --show-versions` で確認できる。
+設定の同期と dotfiles からの配置で同じ設定を競合管理しない。
+
+導入後はターミナルからの `zed .`・`code .` と、Dock / Finder からの起動を確認する。
+GUI 側のターミナル・タスクでも Nix の CLI、fnm の Node.js、プロジェクトの `.venv` が選ばれるか確認する。
+ログインシェルは `/bin/zsh`、fish は手動起動を維持する。
+プロジェクトの依存導入・言語サーバーや拡張の追加は、各プロジェクトの指定に合わせて行う。
 
 ## 共通の操作とインデント
 
@@ -159,23 +204,25 @@ Markdown の行末スペース2個による改行も、そのまま編集でき�
 
 Neovim 0.12 以上、Git、fzf、fd、ripgrep が必要。
 新しい Mac では各コマンドの有無と管理元を確認してから、不足分を導入する。
-現在の Neovim・fzf・fd・ripgrep は Homebrew 側にあり、Nix 側との二重管理は行わない。
+この Mac では Neovim・fzf・fd・ripgrep を Nix で管理し、Homebrew 側へ重複導入しない。
 
 Python の編集支援ツールは当面 uv の tool 環境で管理する。
 既存のインストールがないことを確認した新しい Mac での導入例:
 
 ```sh
-uv tool install basedpyright==1.40.1
-uv tool install ruff
+uv tool install --python 3.14 basedpyright==1.40.1
+uv tool install --python 3.14 ruff==0.17.5
 command -v basedpyright-langserver ruff
 basedpyright --version
 ruff --version
 ```
 
-現在の Mac では basedpyright 1.40.1 を新規導入し、既存の Ruff 0.6.2 を使って連携を確認した。
-Ruff の既存環境には `uv tool list` で管理状態の警告が出る。
-Ruff の更新・管理状態の修復は、既存環境をバックアップしてから別の変更として行う。
-上記の新規導入例では Ruff の版は固定していないため、新しい Mac でも動作確認する。
+旧 Mac では basedpyright 1.40.1 と Ruff 0.6.2 で連携を確認していた。
+その Ruff 環境の管理状態の警告は旧 Mac の記録で、新 Mac へ環境自体をコピーしない。
+ツールの更新は明示的に行い、確認した版をこの手順へ記録する。
+uv tool の環境はプロジェクトの `.venv` と分け、プロジェクト側の Ruff 等の版指定を優先する。
+この導入例は uv 管理の Python 3.14 を使う（[言語本体の導入](development.md)）。
+basedpyright の PyPI 版が依存する Node.js は tool 環境内に置かれ、fnm のグローバルな入口を置き換えない。
 
 fzf-lua、Kanagawa、nvim-treesitter は Neovim 標準の `vim.pack` で管理する。
 初回起動時はネットワークからインストールするため、完了を待つ。
@@ -192,15 +239,14 @@ nvim-treesitter を更新した場合は、下記のパーサー更新も行う�
 ### Tree-sitter の導入と更新
 
 パーサーのビルドには C コンパイラー、curl、tar と `tree-sitter` CLI が必要。
-この Mac では Apple Command Line Tools のコンパイラーと、
-Homebrew の `tree-sitter-cli` 0.27.0 を使って確認した。
-CLI は Brewfile に記録する。現在の nvim-treesitter が要求する CLI は 0.26.1 以上。
-新しい Mac ではコマンドの有無を確認し、不足する場合に導入する。
+Apple Command Line Tools のコンパイラーと、Nix の `tree-sitter` を使う。
+現在の lock では CLI 0.26.8。固定した nvim-treesitter の要求（0.26.1 以上）を満たす。
+新しい Mac では上記の Home Manager 適用後にコマンドの解決先を確認する。
 
 ```sh
 xcrun --find clang
 command -v tree-sitter
-brew install tree-sitter-cli
+tree-sitter --version
 ```
 
 初回のプラグイン取得が終わった Neovim で、次を実行してパーサーを導入する。
@@ -241,10 +287,44 @@ Python ファイルで `:checkhealth vim.lsp` を実行すると、言語サー�
 
 ## Neovim の管理状態
 
-`config/nvim/` の設定ファイルは親の dotfiles リポジトリで追跡しているが、
-同ディレクトリ内には古い独立リポジトリの `.git` も残っている。
-内側のリポジトリには以前から差分があるため、親の状態と区別する。
-独立リポジトリの削除や履歴の整理は別の作業として扱う。
+`config/nvim/` の設定ファイルは親の dotfiles リポジトリで追跡する。
+旧 Mac には古い独立リポジトリの `.git` と差分が残っていたが、2026-11-14 に確認した新 Mac にはない。
+別の環境では親と内側の状態を区別し、独立リポジトリの削除や履歴の整理を自動で行わない。
+
+## 2026-11-14 の新 Mac での確認
+
+Apple Silicon / macOS 27.0.1 で、以下を導入した。
+
+| 対象 | 導入時の版 | 管理元 |
+| --- | --- | --- |
+| Zed | 1.28.1 | Homebrew cask |
+| Visual Studio Code | 1.146.0 | Homebrew cask |
+| Neovim | 0.12.4 | 既存の Nix lock |
+| Tree-sitter CLI | 0.26.8 | 既存の Nix lock |
+| basedpyright | 1.40.1 | uv tool / CPython 3.14.6 |
+| Ruff | 0.17.5 | uv tool / CPython 3.14.6 |
+
+実施した確認:
+
+- 実際の `make check`・`make build`・`make apply`、`make apps`、対話 zsh の `make doctor`。
+- `make apply` の再実行が同じ Home Manager 世代を再利用し、Homebrew の一覧確認で不足がないこと。
+- `~/.config/nvim` が作業ツリーへ解決され、プラグイン lock が書き込み可能であること。
+- 新しい zsh / fish でのエディター・補助 CLI の解決先。Node.js は fnm の 26.13.0、pnpm は Nix の 11.27.0 を維持。
+- 既存 lock の3プラグインを取得し、revision が一致すること。`flake.lock`・`nvim-pack-lock.json` は変更していない。
+- 設定済み12言語のパーサーをビルド・読み込み。追加の依存パーサー `html_tags` も導入された。
+- 実際の Neovim を使う非対話検証で、起動・配色ロード・Tab のスペース4個・`jk`・検索キーマップ・Markdown 表示設定・Makefile のタブを確認。
+- 一時 Python プロジェクトの `.venv` 内だけに置いたモジュールを認識し、basedpyright / Ruff が接続すること。型診断、lint、補完候補、定義ジャンプ、Ruff の整形を確認。
+- Zed の `--version`、両 GUI アプリの macOS 公証評価、VS Code のコード署名検証。
+- 操作スクリプトの既存テスト10件、変更した Bash スクリプトの構文検査、差分の空白検査。
+
+GUI 操作ツールはアプリ取得時にタイムアウトし、画面での起動確認はできなかった。
+VS Code の `code --version` も応答が止まったため、CLI の実行確認は未完了。
+原因は未特定で、隔離属性の削除や macOS の保護機能の無効化は行っていない。
+まず本人が Finder の Applications から各アプリを開き、初回起動の案内を確認する。
+その後 `code --version`・`zed --version`、Dock / ターミナル両方からの起動、GUI 内の PATH / Node.js / `.venv`、
+日本語入力と見た目、用途別の拡張、実際の研究プロジェクトでの動作を確認する。
+上記の非対話検証は、GUI や実際の論文ビルド・研究環境の検証とは区別する。
+検証用の一時プロジェクト・スクリプト（約96 KiB）は削除済み。既存の研究プロジェクトは変更していない。
 
 ## 参考
 
@@ -258,4 +338,8 @@ Python ファイルで `:checkhealth vim.lsp` を実行すると、言語サー�
 - [fzf-lua](https://github.com/ibhagwan/fzf-lua)
 - [Kanagawa](https://github.com/rebelot/kanagawa.nvim)
 - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-- [Homebrew: tree-sitter-cli](https://formulae.brew.sh/formula/tree-sitter-cli)
+- [Zed: macOS](https://zed.dev/docs/macos)
+- [Zed: 環境変数](https://zed.dev/docs/environment)
+- [VS Code: macOS](https://code.visualstudio.com/docs/setup/mac)
+- [Homebrew: Zed](https://formulae.brew.sh/cask/zed)
+- [Homebrew: Visual Studio Code](https://formulae.brew.sh/cask/visual-studio-code)

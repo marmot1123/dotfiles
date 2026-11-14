@@ -6,6 +6,9 @@ cask "discord"
 cask "zoom"
 # LINE・「辞書 by 物書堂」は Mac App Store から手動導入する（docs/macos-setup.md）。
 cask "ghostty"
+# GUI エディター。本体と CLI は cask、日常の更新は各アプリ側で行う。
+cask "zed"
+cask "visual-studio-code"
 cask "chatgpt"
 cask "dropbox"
 cask "google-japanese-ime"

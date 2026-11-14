@@ -9,8 +9,8 @@ GUI アプリ・Google 日本語入力・Codex CLI は Homebrew に分ける。P
 | 管理元 | 今回の対象 |
 | --- | --- |
 | Apple | ログインシェル `/bin/zsh`、SSH、Vim、Command Line Tools |
-| Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep、fnm、pnpm、uv、rustup と以下の設定 |
-| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Markdown Preview、Obsidian、Codex CLI |
+| Nix / Home Manager | Git、Git LFS、gh、fish、fzf、fd、ripgrep、fnm、pnpm、uv、rustup、Neovim、Tree-sitter CLI と以下の設定 |
+| Homebrew の `Brewfile.macos` | 1Password、Chrome、Slack、Discord、Zoom、Ghostty、ChatGPT、Dropbox、Google 日本語入力、Karabiner-Elements、Markdown Preview、Obsidian、Zed、Visual Studio Code、Codex CLI |
 | Homebrew の個別 Office cask（同じ `Brewfile.macos`） | Word、Excel、PowerPoint、Outlook。OneDrive・OneNote は対象外 |
 | Homebrew の `adobe-creative-cloud`（同じ `Brewfile.macos`） | Creative Cloud デスクトップアプリの初回導入。各 Adobe アプリの導入・更新は Creative Cloud 側で行う |
 | Mac App Store から手動導入 | LINE、辞書 by 物書堂 |
@@ -28,6 +28,7 @@ lock がない状態では `make apply` は停止する。シェルスクリプ�
 
 上記は初期構成を用意した時点の記録。Node.js・Python・Rust の管理ツールはその後の個別追加で、
 管理分担・復元手順・実機確認の結果は [開発環境](development.md) を参照する。
+2026-11-14 の Zed・VS Code・Neovim の個別追加は [エディター](editors.md) を参照する。
 
 ## 1 初回起動とアカウント
 
