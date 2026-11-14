@@ -123,8 +123,8 @@ Karabiner-Elements は cask で導入する。設定の Git 管理は可能だ�
 - **Vim / Neovim**: VimはApple標準のVimで使える、外部プラグインに依存しない最小構成にする。Neovimは主用途に合わせて段階的に拡張する。両方とも挿入モードの `jk` → Escを維持し、既定のインデントはスペース4個とする。ファイルタイプ・プロジェクト固有の指定を尊重する。構成と復旧方法は `docs/editors.md` に記録する。
 - **Git**: 認証ヘルパーをOS別に扱う。参照される `.gitignore_global` の配置とGit LFSの依存を確認する。 GitHubのGit操作はSSH公開鍵認証を基本とし、新しいMacでは端末専用のパスフレーズ付きEd25519鍵を早期に新規作成する。鍵生成・公開鍵登録は本人の手動工程として `docs/git-ssh.md` に記録する。SSH設定は `config/ssh/config` で管理し、秘密鍵・ghの認証情報はGitに追加しない。
 - **tmux**: 旧式の色・属性指定を `*-style` 形式へ整理する際も、`C-k` プレフィックス、分割・移動キー等の好みを保つ。
-- **Rust / Node**: Rustはまずrustupを管理元とする案を基本にし、HomebrewのRustやNixのrustc/cargoと通常環境で重ねない。toolchain・Node・pnpmの版とlockはプロジェクトで管理し、共同開発者にNixを必須化しない。
-- **Python**: 新規プロジェクトはuv・`pyproject.toml`・`uv.lock`・`.venv`を基本案とする。既存のConda環境は研究の移行が済むまで保持し、共同研究の指定を尊重する。
+- **Rust / Node**: fnm・pnpm・rustup自体はNix / Home Managerで管理し、Node.jsはfnm、Rust toolchainはrustupで導入する。pnpmは`withNode = false`としてfnmのNode.jsを使う。HomebrewのRustやNixの独立したrustc/cargoと通常環境で重ねない（rustup付属のプロキシは使う）。toolchain・Node・pnpmの版とlockはプロジェクトで管理し、共同開発者にNixを必須化しない。復元・更新手順は`docs/development.md`を参照する。
+- **Python**: uv自体はNix / Home Managerで管理する。新規プロジェクトはuv管理のPython・`pyproject.toml`・`uv.lock`・`.venv`を基本にし、OS付属のPythonへ依存を追加しない。既存のConda環境は研究の移行が済むまで保持し、共同研究の指定を尊重する。
 - **TeX**: 現行のpLaTeX + dvipdfmxによる文書をまず再現する。移行とエンジン変更を同時に行わない。フォントと個人のtexmfも棚卸しし、エンジン指定は可能な限りプロジェクト側へ置く。
 - **LumenCite**: 本体の配布・開発環境と、DB・添付PDF・MCP接続・キーチェーン等の移行を分ける。アプリが起動するだけで移行完了としない。
 

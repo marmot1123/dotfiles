@@ -6,11 +6,13 @@ macOS の研究・執筆・開発環境を、既存の作業を保ちながら�
 - [シェルの構成・確認・復旧手順](docs/shells.md)
 - [Vim・Neovim の使い分けと基本設定](docs/editors.md)
 - [新しい Mac の最小セットアップ](docs/macos-setup.md)
+- [Node.js・Python・Rust の開発環境](docs/development.md)
 
 Ghostty・Apple のターミナルともに Apple の zsh で起動する。
 普段の作業では必要に応じて `fish` と入力し、手動で切り替える。
 Nix / standalone Home Manager の最小構成と、検証・適用を分けるスクリプトを用意した。
-旧 Mac に Nix がないため、lock の生成・Nix の評価と build・新 Mac への実適用は未検証。
+初期構成を準備した旧 Mac では、lock の生成・Nix の評価と build・新 Mac への実適用は未検証だった。
+その後、新 Mac での実適用と開発ツールの動作を確認した範囲は [開発環境](docs/development.md)に記録する。
 新 Mac で `make init-lock` → `make check` → `make apply` と進める。lock が既にある場合は `init-lock` を省略する。
 `make` / `make all` はヘルプ表示のみ。古い一括リンク・削除・Git pull は廃止し、`install` / `deploy` / `clean` は停止する。
 

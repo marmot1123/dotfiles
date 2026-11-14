@@ -12,7 +12,7 @@
 - Apple の「ターミナル」は「設定 → 一般 → 開くシェル」を
   「デフォルトのログインシェル」にしておくと zsh を使える。
 - 起動後に `fish` と入力すると、zsh の子プロセスとして fish が起動する。
-  fish は現在 Homebrew 管理。fish で `exit` すると元の zsh に戻る。
+  新 Mac の fish は Nix / Home Manager 管理。fish で `exit` すると元の zsh に戻る。
 - その zsh でもう一度 `exit` すると、ターミナルのセッションが終了する。
 - ユーザー設定が壊れた場合は、Apple のターミナルの「シェル → 新規コマンド」
   などから `/bin/zsh -f` を起動する。
@@ -108,6 +108,8 @@ Ghostty は XDG 配下と
 - pnpm、rustup、GNU coreutils、npm のユーザー領域、elan の参照を維持する。
   既存の OPAM default と PostgreSQL 17 も、ディレクトリがある場合だけ参照する。
 - Rust は `~/.cargo/bin` を優先する。rustup の初期化ファイルは存在確認して読む。
+  新 Mac では Home Manager のプロファイルをさらに優先し、Nix の rustup に付属する
+  `cargo` / `rustc` のプロキシを使う。`~/.cargo/bin` は `cargo install` したツール等の入口として残す。
 - zsh の `ls` / `ll` は GNU `gls` があればそれを使い、
   なければ Apple の `/bin/ls` を使う。
 - fish の既存の配色と zsh の従来の操作設定を維持する。
@@ -115,6 +117,13 @@ Ghostty は XDG 配下と
 - `ssh-agent` の新規起動と起動時の `ssh-add` は行わず、
   macOS が渡した `SSH_AUTH_SOCK` を引き継ぐ。
   鍵の登録と Git/SSH 認証は別途実際に確認する。
+
+新 Mac の fnm・pnpm・uv・rustup は Nix / Home Manager で管理する。
+zsh は `.zshrc`、fish は `home/default.nix` で PATH 設定後に fnm を初期化し、
+`.node-version` / `.nvmrc` に合わせて Node.js を切り替える。fish の初期化は対話シェルだけで行う。
+zsh の補完には Nix プロファイルの `share/zsh/site-functions` を追加し、
+fish は Nix パッケージの vendor completions を利用する。
+言語本体の導入・版指定・更新は [開発環境](development.md) を参照する。
 
 TeX は、整理前に実際に参照されていた
 `/usr/local/texlive/2026/bin/universal-darwin` を**意図的な暫定指定**として維持する。

@@ -4,7 +4,7 @@ set -eu
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 missing=0
 printf '%s\n' 'Command resolution in this shell:'
-for tool in nix home-manager brew git git-lfs gh fish fzf fd rg codex; do
+for tool in nix home-manager brew git git-lfs gh fish fzf fd rg codex fnm pnpm uv rustup; do
     resolved=$(command -v "$tool" || true)
     if [ -n "$resolved" ]; then
         printf '  %-14s %s\n' "$tool" "$resolved"

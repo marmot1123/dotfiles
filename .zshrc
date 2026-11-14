@@ -5,6 +5,11 @@ if [[ ! -o login && -r "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 # 補完
+# Nix パッケージに同梱された fnm・uv・rustup 等の補完を使う。
+typeset -gU fpath
+if [[ -d "$HOME/.nix-profile/share/zsh/site-functions" ]]; then
+  fpath=("$HOME/.nix-profile/share/zsh/site-functions" $fpath)
+fi
 autoload -U compinit
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -37,6 +42,11 @@ else
 fi
 
 [[ -r "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+
+# .node-version / .nvmrc に合わせて Node.js を切り替える。
+if (( $+commands[fnm] )); then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
 
 # 任意ファイルがない場合も、初期化は正常終了する。
 true

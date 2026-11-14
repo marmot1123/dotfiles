@@ -13,6 +13,12 @@
     fzf
     fd
     ripgrep
+    # 管理ツールだけを Nix で固定し、言語本体と依存はプロジェクト側で選ぶ。
+    fnm
+    # 実行時は fnm が選んだ Node.js を使う。
+    (pnpm.override { withNode = false; })
+    uv
+    rustup
   ];
 
   home.sessionVariables.LANG = "en_US.UTF-8";
@@ -24,6 +30,11 @@
       # 共通 CLI は Home Manager のプロファイルを優先する。
       fish_add_path --path --prepend --move "${config.home.profileDirectory}/bin"
       set --global fish_key_bindings fish_default_key_bindings
+
+      # PATH の準備後に、シェルごとの Node.js 環境を作る。
+      if status is-interactive; and command --query fnm
+          fnm env --use-on-cd --shell fish | source
+      end
     '';
     "fish/conf.d/fish_frozen_theme.fish".source = ../config/fish/conf.d/fish_frozen_theme.fish;
     "fish/functions/fish_prompt.fish".source = ../config/fish/functions/fish_prompt.fish;
